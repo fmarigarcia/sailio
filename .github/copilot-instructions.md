@@ -11,6 +11,34 @@ Sailio es un SaaS para entrenadores y regatistas de vela que permite llevar cont
 - **Backend**: Node.js + Express + Prisma + PostgreSQL
 - **Principios**: SOLID aplicado en todo el proyecto
 
+## Reglas de Arquitectura de Componentes
+
+### Ubicación de Componentes Frontend
+
+**REGLA CRÍTICA**: Si un componente aparece en **más de 2 sitios**, NO es específico del dominio: es **UI** (design system).
+
+#### Componentes UI (`apps/frontend/src/ui/`)
+
+- Componentes reutilizables usados en **≥3 lugares** diferentes
+- Forman parte del design system
+- Deben tener: component + styles + tests + Storybook stories
+- Ejemplos: `Button`, `Alert`, `EmptyState`, `Modal`, `Table`
+
+#### Componentes de Módulo (`apps/frontend/src/modules/{modulo}/components/`)
+
+- Componentes específicos usados en **1-2 lugares** del mismo módulo
+- Lógica específica del dominio
+- Ejemplos: `AthleteCard`, `SessionForm`, `WeatherWidget`
+
+#### Cuándo Mover a UI
+
+Si durante el desarrollo un componente de módulo empieza a usarse en 3+ lugares:
+
+1. Moverlo a `ui/`
+2. Generalizarlo (eliminar lógica específica del dominio)
+3. Crear tests y Storybook stories
+4. Actualizar imports en todos los lugares
+
 ## Reglas de Linting y Code Quality
 
 ### ESLint - Reglas Críticas (deben tirar error):
