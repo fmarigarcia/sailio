@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import clsx from 'clsx';
 import './dropdown.css';
 
 export interface DropdownItem {
@@ -186,7 +187,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div
       ref={dropdownRef}
-      className={`dropdown dropdown--${size} ${className}`}
+      className={clsx('dropdown', `dropdown--${size}`, className)}
       data-testid="dropdown"
     >
       <button
@@ -205,7 +206,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       {isOpen && (
         <div
           ref={menuRef}
-          className={`dropdown__menu dropdown__menu--${calculatedPosition} ${menuClassName}`}
+          className={clsx('dropdown__menu', `dropdown__menu--${calculatedPosition}`, menuClassName)}
           role="menu"
           data-testid="dropdown-menu"
         >
@@ -228,9 +229,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
               <button
                 key={item.id}
                 type="button"
-                className={`dropdown__item ${
-                  item.danger ? 'dropdown__item--danger' : ''
-                } ${isFocused ? 'dropdown__item--focused' : ''}`}
+                className={clsx(
+                  'dropdown__item',
+                  item.danger && 'dropdown__item--danger',
+                  isFocused && 'dropdown__item--focused'
+                )}
                 onClick={() => handleItemClick(item)}
                 disabled={item.disabled}
                 role="menuitem"

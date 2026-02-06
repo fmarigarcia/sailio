@@ -1,4 +1,5 @@
 import React, { ReactNode, ThHTMLAttributes, TdHTMLAttributes, HTMLAttributes } from 'react';
+import clsx from 'clsx';
 import './table.css';
 
 interface TableProps extends Omit<HTMLAttributes<HTMLTableElement>, 'className' | 'style'> {
@@ -44,18 +45,17 @@ const Table: React.FC<TableProps> = ({
   size = 'md',
   ...props
 }) => {
-  const classes = [
-    'table',
-    `table-${size}`,
-    striped && 'table-striped',
-    hoverable && 'table-hoverable',
-    bordered && 'table-bordered',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
   return (
-    <table className={classes} {...props}>
+    <table
+      className={clsx(
+        'table',
+        `table-${size}`,
+        striped && 'table-striped',
+        hoverable && 'table-hoverable',
+        bordered && 'table-bordered'
+      )}
+      {...props}
+    >
       {children}
     </table>
   );

@@ -1,4 +1,5 @@
 import { forwardRef, InputHTMLAttributes } from 'react';
+import clsx from 'clsx';
 import './radio.css';
 
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
@@ -13,20 +14,24 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
     const radioId = props.id || `radio-${crypto.randomUUID()}`;
 
     return (
-      <div className={`radio-wrapper ${className}`}>
+      <div className={clsx('radio-wrapper', className)}>
         <div className="radio-container">
           <input
             ref={ref}
             type="radio"
             id={radioId}
-            className={`radio-input ${error ? 'radio-input--error' : ''} ${disabled ? 'radio-input--disabled' : ''}`}
+            className={clsx(
+              'radio-input',
+              error && 'radio-input--error',
+              disabled && 'radio-input--disabled'
+            )}
             disabled={disabled}
             {...props}
           />
           {label && (
             <label
               htmlFor={radioId}
-              className={`radio-label ${disabled ? 'radio-label--disabled' : ''}`}
+              className={clsx('radio-label', disabled && 'radio-label--disabled')}
             >
               {label}
             </label>

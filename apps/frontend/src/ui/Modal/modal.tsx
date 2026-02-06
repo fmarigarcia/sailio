@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, useRef } from 'react';
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import './modal.css';
 
@@ -101,7 +102,7 @@ const Modal: React.FC<ModalProps> = ({
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div
         ref={modalRef}
-        className={`modal modal-${size}`}
+        className={clsx('modal', `modal-${size}`)}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}

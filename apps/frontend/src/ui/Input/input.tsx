@@ -1,4 +1,5 @@
 import { InputHTMLAttributes, forwardRef, useId } from 'react';
+import clsx from 'clsx';
 import './input.css';
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -17,17 +18,15 @@ const buildInputClasses = (
   fullWidth: boolean,
   className: string
 ): string => {
-  return [
+  return clsx(
     'input',
     `input--${size}`,
     hasError && 'input--error',
     disabled && 'input--disabled',
     readOnly && 'input--readonly',
     fullWidth && 'input--full-width',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    className
+  );
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -62,7 +61,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     );
 
     return (
-      <div className={`input-wrapper ${fullWidth ? 'input-wrapper--full-width' : ''}`}>
+      <div className={clsx('input-wrapper', fullWidth && 'input-wrapper--full-width')}>
         {label && (
           <label htmlFor={inputId} className="input-label">
             {label}
@@ -87,7 +86,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {(helperText || error) && (
           <span
             id={helperId}
-            className={`input-helper ${hasError ? 'input-helper--error' : ''}`}
+            className={clsx('input-helper', hasError && 'input-helper--error')}
             role={hasError ? 'alert' : undefined}
           >
             {error || helperText}

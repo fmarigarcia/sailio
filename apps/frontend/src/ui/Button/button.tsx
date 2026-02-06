@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes, ReactNode } from 'react';
+import clsx from 'clsx';
 import { Spinner } from '../icons';
 import './button.css';
 
@@ -31,7 +32,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       type={type}
-      className={`btn btn--${variant} btn--${size} ${loading ? 'btn--loading' : ''}`}
+      className={clsx('btn', `btn--${variant}`, `btn--${size}`, loading && 'btn--loading')}
       disabled={isDisabled}
       aria-busy={loading}
       {...props}

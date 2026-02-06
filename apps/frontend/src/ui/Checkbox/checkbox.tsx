@@ -1,4 +1,5 @@
 import { forwardRef, InputHTMLAttributes } from 'react';
+import clsx from 'clsx';
 import './checkbox.css';
 
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
@@ -13,20 +14,24 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const checkboxId = props.id || `checkbox-${crypto.randomUUID()}`;
 
     return (
-      <div className={`checkbox-wrapper ${className}`}>
+      <div className={clsx('checkbox-wrapper', className)}>
         <div className="checkbox-container">
           <input
             ref={ref}
             type="checkbox"
             id={checkboxId}
-            className={`checkbox-input ${error ? 'checkbox-input--error' : ''} ${disabled ? 'checkbox-input--disabled' : ''}`}
+            className={clsx(
+              'checkbox-input',
+              error && 'checkbox-input--error',
+              disabled && 'checkbox-input--disabled'
+            )}
             disabled={disabled}
             {...props}
           />
           {label && (
             <label
               htmlFor={checkboxId}
-              className={`checkbox-label ${disabled ? 'checkbox-label--disabled' : ''}`}
+              className={clsx('checkbox-label', disabled && 'checkbox-label--disabled')}
             >
               {label}
             </label>

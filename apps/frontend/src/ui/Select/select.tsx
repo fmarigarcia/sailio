@@ -1,4 +1,5 @@
 import { forwardRef, ChangeEvent, useId } from 'react';
+import clsx from 'clsx';
 import './select.css';
 
 export interface SelectOption {
@@ -56,16 +57,14 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       }
     };
 
-    const selectClassName = [
+    const selectClassName = clsx(
       'select',
       `select--${size}`,
-      error ? 'select--error' : '',
-      disabled ? 'select--disabled' : '',
-      !value ? 'select--placeholder' : '',
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ');
+      error && 'select--error',
+      disabled && 'select--disabled',
+      !value && 'select--placeholder',
+      className
+    );
 
     return (
       <div className="select-wrapper">
