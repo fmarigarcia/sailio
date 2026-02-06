@@ -20,7 +20,10 @@
     "previous": "Anterior",
     "close": "Cerrar",
     "confirm": "Confirmar",
-    "actions": "Acciones"
+    "actions": "Acciones",
+    "select": "Seleccionar",
+    "selectOption": "Selecciona una opción",
+    "noOptions": "No hay opciones disponibles"
   },
   "errors": {
     "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo.",

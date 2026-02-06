@@ -20,7 +20,10 @@
     "previous": "Previous",
     "close": "Close",
     "confirm": "Confirm",
-    "actions": "Actions"
+    "actions": "Actions",
+    "select": "Select",
+    "selectOption": "Select an option",
+    "noOptions": "No options available"
   },
   "errors": {
     "generic": "An error occurred. Please try again.",
