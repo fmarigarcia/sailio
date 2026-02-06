@@ -1,0 +1,27 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  padding: var(--space-6);
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+  text-align: center;
+}
+
+.app-header h1 {
+  color: var(--color-primary-contrast);
+  margin-bottom: var(--space-2);
+}
+
+.app-header p {
+  color: var(--color-primary-contrast);
+  font-size: var(--font-size-lg);
+}
+
+.app-main {
+  flex: 1;
+  padding: var(--space-6);
+}

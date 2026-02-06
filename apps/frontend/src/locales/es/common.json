@@ -1,0 +1,38 @@
+{
+  "app": {
+    "title": "Sailio",
+    "description": "SaaS para entrenadores y regatistas de vela"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "actions": "Acciones"
+  },
+  "errors": {
+    "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+    "network": "Error de conexión. Verifica tu conexión a internet.",
+    "notFound": "No encontrado",
+    "unauthorized": "No autorizado",
+    "forbidden": "Acceso denegado"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "email": "Debe ser un email válido",
+    "minLength": "Debe tener al menos {{min}} caracteres",
+    "maxLength": "No puede exceder {{max}} caracteres"
+  }
+}

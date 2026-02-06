@@ -1,0 +1,87 @@
+:root {
+  /* Primary Colors */
+  --color-primary: #0066cc;
+  --color-primary-light: #3385d6;
+  --color-primary-dark: #004d99;
+  --color-primary-contrast: #ffffff;
+
+  /* Secondary Colors */
+  --color-secondary: #6c757d;
+  --color-secondary-light: #8c959d;
+  --color-secondary-dark: #4c545c;
+  --color-secondary-contrast: #ffffff;
+
+  /* Semantic Colors */
+  --color-success: #28a745;
+  --color-success-light: #48b765;
+  --color-success-dark: #1e7e34;
+  --color-success-contrast: #ffffff;
+
+  --color-warning: #ffc107;
+  --color-warning-light: #ffcd38;
+  --color-warning-dark: #d39e00;
+  --color-warning-contrast: #212529;
+
+  --color-danger: #dc3545;
+  --color-danger-light: #e25563;
+  --color-danger-dark: #bd2130;
+  --color-danger-contrast: #ffffff;
+
+  --color-info: #17a2b8;
+  --color-info-light: #3fb5c9;
+  --color-info-dark: #117a8b;
+  --color-info-contrast: #ffffff;
+
+  /* Neutral Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-gray-50: #f8f9fa;
+  --color-gray-100: #e9ecef;
+  --color-gray-200: #dee2e6;
+  --color-gray-300: #ced4da;
+  --color-gray-400: #adb5bd;
+  --color-gray-500: #6c757d;
+  --color-gray-600: #495057;
+  --color-gray-700: #343a40;
+  --color-gray-800: #212529;
+  --color-gray-900: #0d1117;
+
+  /* Background Colors */
+  --color-background: #ffffff;
+  --color-background-secondary: #f8f9fa;
+  --color-background-tertiary: #e9ecef;
+
+  /* Text Colors */
+  --color-text-primary: #212529;
+  --color-text-secondary: #6c757d;
+  --color-text-disabled: #adb5bd;
+  --color-text-inverse: #ffffff;
+
+  /* Border Colors */
+  --color-border: #dee2e6;
+  --color-border-light: #e9ecef;
+  --color-border-dark: #ced4da;
+
+  /* Focus/Hover Colors */
+  --color-focus: #0066cc;
+  --color-hover: rgba(0, 102, 204, 0.08);
+}
+
+/* Dark mode support (opcional para el futuro) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #0d1117;
+    --color-background-secondary: #161b22;
+    --color-background-tertiary: #21262d;
+
+    --color-text-primary: #c9d1d9;
+    --color-text-secondary: #8b949e;
+    --color-text-disabled: #484f58;
+    --color-text-inverse: #0d1117;
+
+    --color-border: #30363d;
+    --color-border-light: #21262d;
+    --color-border-dark: #484f58;
+  }
+}
