@@ -70,35 +70,41 @@ apps/frontend/src/
 **Corazón del frontend** - cada subcarpeta = dominio del negocio
 
 ### Regla de oro:
+
 Si algo solo tiene sentido dentro de un módulo, no debe vivir fuera de él.
 
 ### Archivos por módulo:
 
 #### {dominio}.api.ts
+
 - ÚNICAMENTE llamadas al backend y mapeo de datos
 - NO maneja estado ni lógica de UI
 - Ejemplo:
+
 ```typescript
 export const authApi = {
   login: async (credentials: LoginDto) => {
     const response = await api.post('/auth/login', credentials);
     return mapUserDto(response.data);
-  }
+  },
 };
 ```
 
 #### hooks/
+
 - Orquestan datos, estado y efectos
 - NO contienen JSX
 - Lógica reutilizable del dominio
 - Ejemplo: `useAuth.ts`, `useUserProfile.ts`
 
 #### components/
+
 - Componentes ligados al dominio
 - Usan componentes de `ui/`, pero no definen estilos base
 - Ejemplo: `UserProfileCard`, `SessionSummary`
 
 #### pages/
+
 - Cada página en su carpeta con:
   - `index.ts` - Export por defecto
   - `{page}.tsx` - Componente de la página
@@ -107,10 +113,12 @@ export const authApi = {
   - `__tests__/` - Tests de la página
 
 #### {dominio}.routes.tsx
+
 - Define las rutas del dominio
 - Normalmente con lazy loading
 - Layouts específicos si hacen falta
 - Ejemplo:
+
 ```typescript
 export const authRoutes = {
   path: '/auth',
@@ -123,6 +131,7 @@ export const authRoutes = {
 ```
 
 #### {dominio}.types.ts
+
 - SOLO si el dominio tiene conceptos propios del negocio
 - NO para DTOs triviales ni tipos puramente técnicos
 
@@ -131,18 +140,22 @@ export const authRoutes = {
 **Design system interno** - no es librería externa, es infraestructura del proyecto
 
 ### Contiene:
+
 - Tokens de diseño (colores, spacing, tipografías) → CSS variables
 - Componentes reutilizables (Button, Input, Modal)
 - Primitives de layout (Stack, Grid, Container)
 
 ### Características de componentes ui/:
+
 - ✅ NO conocen el negocio
 - ✅ Son cerrados y consistentes
 - ✅ Tienen pocas props
 - ✅ NO aceptan estilos inline arbitrarios
 - ✅ Usan tokens de diseño (CSS variables)
+- ✅ Props sin comentarios JSDoc (el tipo ya es autodocumentado)
 
 ### Estructura de componente UI:
+
 ```typescript
 // Button/button.tsx
 interface ButtonProps {
@@ -159,6 +172,7 @@ export function Button({ variant = 'primary', size = 'md', ...props }: ButtonPro
 ```
 
 ### Tokens de diseño
+
 Base de todo el diseño. NUNCA colores, tamaños o spacing "a mano".
 
 ```css
@@ -191,6 +205,7 @@ Base de todo el diseño. NUNCA colores, tamaños o spacing "a mano".
 Código transversal que NO pertenece a ningún dominio.
 
 ### Ejemplos:
+
 - Cliente HTTP configurado
 - Hooks genéricos: `useDebounce`, `useLocalStorage`, `useMediaQuery`
 - Utilidades: formatters, validators
@@ -203,6 +218,7 @@ Código transversal que NO pertenece a ningún dominio.
 **MUST**: Storybook debe estar siempre actualizado.
 
 ### Para cada componente UI:
+
 ```typescript
 // Button/button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
@@ -237,18 +253,20 @@ export const Secondary: Story = {
 **CRÍTICO**: TODO debe estar traducido a español e inglés.
 
 ### ❌ PROHIBIDO:
+
 ```typescript
 <h1>Welcome to Sailio</h1>
 <Button>Save</Button>
 ```
 
 ### ✅ CORRECTO:
+
 ```typescript
 import { useTranslation } from 'react-i18next';
 
 function Welcome() {
   const { t } = useTranslation();
-  
+
   return (
     <h1>{t('welcome.title')}</h1>
     <Button>{t('common.save')}</Button>
@@ -257,6 +275,7 @@ function Welcome() {
 ```
 
 ### Estructura de traducciones:
+
 ```
 apps/frontend/src/locales/
   es/
@@ -272,19 +291,23 @@ apps/frontend/src/locales/
 ## Naming Conventions
 
 ### ✅ Preferir nombres de negocio, no técnicos:
+
 - `UserProfile` en vez de `UserContainer`
 - `BillingSummary` en vez de `BillingWrapper`
 - `UpgradePlanCTA` en vez de `UpgradeButton`
 
 ### ✅ Componentes: PascalCase
+
 - `SessionCard.tsx`
 - `AthleteList.tsx`
 
 ### ✅ Hooks: camelCase con prefijo use
+
 - `useAuth.ts`
 - `useSessionData.ts`
 
 ### ✅ Utilidades: camelCase
+
 - `formatDate.ts`
 - `validateEmail.ts`
 
@@ -297,6 +320,7 @@ apps/frontend/src/locales/
 - ❌ Strings sin traducir
 - ❌ Estilos inline (`style={{}}`)
 - ❌ Lógica de negocio en componentes UI
+- ❌ Comentarios JSDoc en las props de componentes UI
 
 ## Reglas de Linting Frontend
 
@@ -308,6 +332,7 @@ apps/frontend/src/locales/
 - Coverage de tests: ≥80%
 
 ### Pre-commit Hooks
+
 - Husky ejecuta automáticamente antes de cada commit:
   - ESLint en archivos staged
   - Stylelint en archivos CSS
@@ -318,6 +343,7 @@ apps/frontend/src/locales/
 ## Testing Frontend
 
 ### Tests de componentes React:
+
 ```typescript
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Button } from './button';
@@ -338,6 +364,7 @@ describe('Button', () => {
 ```
 
 ### Tests de hooks:
+
 ```typescript
 import { renderHook, act } from '@testing-library/react';
 import { useAuth } from './useAuth';
@@ -345,11 +372,11 @@ import { useAuth } from './useAuth';
 describe('useAuth', () => {
   it('logs in user successfully', async () => {
     const { result } = renderHook(() => useAuth());
-    
+
     await act(async () => {
       await result.current.login({ email: 'test@example.com', password: 'pass' });
     });
-    
+
     expect(result.current.user).toBeDefined();
   });
 });
@@ -379,7 +406,7 @@ describe('useAuth', () => {
 4. ✅ `{component}.stories.tsx` - Storybook
 5. ✅ `__tests__/` - Tests con cobertura ≥80%
 6. ✅ `index.ts` - Export
-7. ✅ Props mínimas y tipadas
+7. ✅ Props mínimas y tipadas (sin comentarios JSDoc)
 8. ✅ Sin lógica de negocio
 9. ✅ Sin estilos inline
 10. ✅ Usa CSS variables (tokens)

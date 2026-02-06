@@ -8,65 +8,20 @@ export interface SelectOption {
 }
 
 export interface SelectProps {
-  /**
-   * Unique identifier for the select
-   */
   id?: string;
-  /**
-   * Name attribute for the select
-   */
   name?: string;
-  /**
-   * Current selected value
-   */
   value?: string;
-  /**
-   * Placeholder text when no option is selected
-   */
   placeholder?: string;
-  /**
-   * Array of options to display
-   */
   options: SelectOption[];
-  /**
-   * Whether the select is disabled
-   */
   disabled?: boolean;
-  /**
-   * Whether the select has an error
-   */
   error?: boolean;
-  /**
-   * Error message to display
-   */
   errorMessage?: string;
-  /**
-   * Size variant
-   */
   size?: 'sm' | 'md' | 'lg';
-  /**
-   * Callback when value changes
-   */
   onChange?: (value: string) => void;
-  /**
-   * Callback when select loses focus
-   */
   onBlur?: () => void;
-  /**
-   * Additional CSS class
-   */
   className?: string;
-  /**
-   * ARIA label for accessibility
-   */
   'aria-label'?: string;
-  /**
-   * ARIA described by for accessibility
-   */
   'aria-describedby'?: string;
-  /**
-   * Whether the field is required
-   */
   required?: boolean;
 }
 

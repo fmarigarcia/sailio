@@ -2,13 +2,9 @@ import { forwardRef, InputHTMLAttributes } from 'react';
 import './checkbox.css';
 
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
-  /** Label text for the checkbox */
   label?: string;
-  /** Error state */
   error?: boolean;
-  /** Error message to display */
   errorMessage?: string;
-  /** Helper text to display below the checkbox */
   helperText?: string;
 }
 

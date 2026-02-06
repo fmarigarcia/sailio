@@ -2,13 +2,9 @@ import { forwardRef, InputHTMLAttributes } from 'react';
 import './radio.css';
 
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
-  /** Label text for the radio */
   label?: string;
-  /** Error state */
   error?: boolean;
-  /** Error message to display */
   errorMessage?: string;
-  /** Helper text to display below the radio */
   helperText?: string;
 }
 

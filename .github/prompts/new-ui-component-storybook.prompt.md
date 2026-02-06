@@ -1,6 +1,7 @@
 # Prompt: Crear Componente UI con Storybook
 
 ## Objetivo
+
 Crear un nuevo componente para el design system interno (carpeta `ui/`) con su respectiva documentación en Storybook.
 
 ## Instrucciones para GitHub Copilot
@@ -28,7 +29,9 @@ apps/frontend/src/ui/{Component}/
    - Componente cerrado y consistente
 
    Ejemplo:
+
    ```typescript
+   // Props sin comentarios JSDoc - los tipos son autodocumentados
    interface ButtonProps {
      variant?: 'primary' | 'secondary' | 'danger';
      size?: 'sm' | 'md' | 'lg';
@@ -38,13 +41,13 @@ apps/frontend/src/ui/{Component}/
      type?: 'button' | 'submit' | 'reset';
    }
 
-   export function Button({ 
-     variant = 'primary', 
+   export function Button({
+     variant = 'primary',
      size = 'md',
      type = 'button',
      disabled = false,
      children,
-     onClick 
+     onClick
    }: ButtonProps) {
      return (
        <button
@@ -66,6 +69,7 @@ apps/frontend/src/ui/{Component}/
    - Responsive cuando aplique
 
    Ejemplo:
+
    ```css
    .btn {
      display: inline-flex;
@@ -111,6 +115,7 @@ apps/frontend/src/ui/{Component}/
    - Tags `['autodocs']` para generación automática
 
    Ejemplo:
+
    ```typescript
    import type { Meta, StoryObj } from '@storybook/react';
    import { Button } from './button';
@@ -180,7 +185,7 @@ apps/frontend/src/ui/{Component}/
    };
    ```
 
-4. **__tests__/{component}.test.tsx**:
+4. \***\*tests**/{component}.test.tsx\*\*:
    - Tests con React Testing Library
    - Probar rendering de variantes
    - Probar interacciones
@@ -188,6 +193,7 @@ apps/frontend/src/ui/{Component}/
    - Cobertura ≥ 80%
 
    Ejemplo:
+
    ```typescript
    import { render, screen, fireEvent } from '@testing-library/react';
    import { describe, it, expect, vi } from 'vitest';
@@ -217,18 +223,18 @@ apps/frontend/src/ui/{Component}/
      it('calls onClick when clicked', () => {
        const handleClick = vi.fn();
        render(<Button onClick={handleClick}>Click</Button>);
-       
+
        fireEvent.click(screen.getByRole('button'));
-       
+
        expect(handleClick).toHaveBeenCalledTimes(1);
      });
 
      it('does not call onClick when disabled', () => {
        const handleClick = vi.fn();
        render(<Button onClick={handleClick} disabled>Click</Button>);
-       
+
        fireEvent.click(screen.getByRole('button'));
-       
+
        expect(handleClick).not.toHaveBeenCalled();
      });
 
@@ -250,6 +256,7 @@ apps/frontend/src/ui/{Component}/
 {DESCRIBIR CARACTERÍSTICAS ESPECÍFICAS}
 
 Ejemplo:
+
 - Variantes: primary, secondary, danger
 - Tamaños: small, medium, large
 - Estados: default, hover, active, disabled
@@ -259,6 +266,7 @@ Ejemplo:
 ### Tokens CSS a Usar:
 
 Asegúrate de usar tokens existentes:
+
 - Colores: `var(--color-*)`
 - Spacing: `var(--space-*)`
 - Fonts: `var(--font-size-*)`, `var(--font-family-*)`
@@ -266,6 +274,7 @@ Asegúrate de usar tokens existentes:
 - Shadows: `var(--shadow-*)`
 
 Si necesitas nuevos tokens, créalos en los archivos correspondientes:
+
 - `ui/colors.css`
 - `ui/spacing.css`
 - `ui/typography.css`
@@ -274,6 +283,7 @@ Si necesitas nuevos tokens, créalos en los archivos correspondientes:
 
 - ✅ NO lógica de negocio en el componente
 - ✅ Props mínimas y cerradas (no infinitas opciones)
+- ✅ Props sin comentarios JSDoc (los tipos son autodocumentados)
 - ✅ Sin estilos inline (`style={{}}`)
 - ✅ Usar SOLO tokens CSS
 - ✅ Componente genérico y reutilizable
@@ -286,6 +296,7 @@ Si necesitas nuevos tokens, créalos en los archivos correspondientes:
 ### Accesibilidad:
 
 Considerar:
+
 - Roles ARIA apropiados
 - Labels descriptivos
 - Keyboard navigation
@@ -295,6 +306,7 @@ Considerar:
 ### Responsive:
 
 Si aplica, el componente debe ser responsive:
+
 - Mobile first
 - Breakpoints consistentes
 - Testing en diferentes tamaños
@@ -319,11 +331,13 @@ Si aplica, el componente debe ser responsive:
 ## Testing de Storybook:
 
 Verificar que funciona:
+
 ```bash
 pnpm storybook
 ```
 
 Navegar a `UI/{Component}` y verificar:
+
 - Todas las stories se renderizan
 - Controles funcionan
 - Documentación generada correctamente
@@ -331,6 +345,7 @@ Navegar a `UI/{Component}` y verificar:
 ## Componentes de Referencia:
 
 Consulta componentes existentes en `ui/` para mantener consistencia en:
+
 - Naming de props
 - Estructura de variantes
 - Patrones de CSS

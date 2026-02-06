@@ -2,15 +2,10 @@ import { InputHTMLAttributes, forwardRef, useId } from 'react';
 import './input.css';
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
-  /** Label text for the input */
   label?: string;
-  /** Error message to display */
   error?: string;
-  /** Helper text to display below the input */
   helperText?: string;
-  /** Size variant of the input */
   size?: 'sm' | 'md' | 'lg';
-  /** Full width input */
   fullWidth?: boolean;
 }
 
