@@ -1,0 +1,142 @@
+/* ============================================
+   Spinner - Loading Indicator
+   ============================================ */
+
+.spinner {
+  /* Base container */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* ============================================
+   Spinner Circle Animation
+   ============================================ */
+
+.spinner__circle {
+  display: inline-block;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: var(--color-primary-500) var(--color-primary-200) var(--color-primary-200);
+  animation: spinner-rotate 0.8s linear infinite;
+}
+
+@keyframes spinner-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   Tamaños
+   ============================================ */
+
+.spinner--small .spinner__circle {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+.spinner--medium .spinner__circle {
+  width: 32px;
+  height: 32px;
+  border-width: 3px;
+}
+
+.spinner--large .spinner__circle {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
+}
+
+/* ============================================
+   Variantes de Display
+   ============================================ */
+
+/* Inline - para usar dentro de botones o texto */
+.spinner--inline {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Centered - centrado en su contenedor */
+.spinner--centered {
+  display: flex;
+  width: 100%;
+  min-height: 200px;
+}
+
+/* Overlay - cubre toda la pantalla/viewport */
+.spinner--overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.spinner__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+/* ============================================
+   Label
+   ============================================ */
+
+.spinner__label {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.spinner--small .spinner__label {
+  font-size: var(--font-size-xs);
+}
+
+.spinner--large .spinner__label {
+  font-size: var(--font-size-base);
+}
+
+/* ============================================
+   Accesibilidad
+   ============================================ */
+
+.spinner__visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   Prefers Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner__circle {
+    animation: spinner-rotate 2s linear infinite;
+  }
+}

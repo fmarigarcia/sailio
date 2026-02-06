@@ -53,3 +53,6 @@ export type { ContainerProps } from './Container';
 
 export { Tooltip } from './Tooltip';
 export type { TooltipProps, TooltipPosition } from './Tooltip';
+
+export { Spinner } from './Spinner';
+export type { SpinnerProps } from './Spinner';

@@ -1,0 +1,76 @@
+/* ============================================
+   Estilos SOLO para Storybook Stories
+   ============================================ */
+
+/* Inline example */
+.spinner-story__inline-example {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* Centered example container */
+.spinner-story__centered-container {
+  border: 2px dashed var(--color-neutral-300);
+  min-height: 300px;
+  padding: var(--spacing-5);
+}
+
+/* Overlay example container */
+.spinner-story__overlay-container {
+  position: relative;
+  height: 500px;
+}
+
+.spinner-story__overlay-content {
+  padding: var(--spacing-5);
+}
+
+/* Button example */
+.spinner-story__button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-5);
+  font-size: var(--font-size-sm);
+  background-color: var(--color-primary-500);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Table section example */
+.spinner-story__table {
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.spinner-story__table-header {
+  background-color: var(--color-neutral-100);
+  padding: var(--spacing-3) var(--spacing-4);
+  font-weight: 600;
+}
+
+.spinner-story__table-body {
+  min-height: 250px;
+}
+
+/* All sizes comparison */
+.spinner-story__sizes-container {
+  display: flex;
+  gap: var(--spacing-8);
+  align-items: flex-start;
+}
+
+.spinner-story__size-item {
+  text-align: center;
+}
+
+.spinner-story__size-label {
+  margin-top: var(--spacing-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
