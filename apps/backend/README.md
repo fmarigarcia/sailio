@@ -221,6 +221,46 @@ pnpm test:watch
 pnpm test modules/auth
 ```
 
+## 📝 Logging
+
+El backend utiliza **[Pino](https://getpino.io/)** para logging estructurado y de alto rendimiento.
+
+### Características
+
+- **Logging estructurado**: JSON en producción para fácil procesamiento
+- **Pretty print**: Formato legible en desarrollo con colores
+- **Niveles configurables**: debug, info, warn, error, fatal
+- **Sin console.log**: Todo el logging se hace a través de Pino
+- **Desactivado en tests**: No produce output durante la ejecución de tests
+
+### Uso
+
+```typescript
+import { logger } from '@/shared/utils';
+
+// Mensajes simples
+logger.info('Server started');
+logger.warn('High memory usage detected');
+logger.error('Failed to process request');
+
+// Con contexto adicional
+logger.info({ userId: '123', action: 'login' }, 'User logged in');
+
+// Con errores
+try {
+  // ...
+} catch (error) {
+  logger.error({ err: error }, 'Failed to save data');
+}
+```
+
+### Configuración
+
+Variables de entorno disponibles:
+
+- `LOG_LEVEL`: Nivel mínimo de logging (debug, info, warn, error). Default: `debug` en desarrollo, `info` en producción
+- `NODE_ENV`: Controla el formato (pretty print en desarrollo, JSON en producción)
+
 ## 🔐 Seguridad
 
 - **Helmet**: Headers de seguridad HTTP
@@ -248,6 +288,7 @@ pnpm test modules/auth
 - [Prisma](https://www.prisma.io/)
 - [Zod](https://zod.dev/)
 - [Vitest](https://vitest.dev/)
+- [Pino](https://getpino.io/)
 
 ---
 

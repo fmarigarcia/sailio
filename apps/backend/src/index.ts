@@ -9,6 +9,7 @@ import { prisma } from './shared/db';
 const startServer = async (): Promise<void> => {
   try {
     // Verificar conexión a la base de datos
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     await prisma.$connect();
     logger.info('Database connected successfully');
 
@@ -22,7 +23,7 @@ const startServer = async (): Promise<void> => {
       );
     });
   } catch (error) {
-    logger.error('Failed to start server:', error);
+    logger.error({ err: error }, 'Failed to start server');
     process.exit(1);
   }
 };
@@ -34,11 +35,12 @@ const gracefulShutdown = async (signal: string): Promise<void> => {
   logger.info(`${signal} received. Starting graceful shutdown...`);
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     await prisma.$disconnect();
     logger.info('Database disconnected');
     process.exit(0);
   } catch (error) {
-    logger.error('Error during shutdown:', error);
+    logger.error({ err: error }, 'Error during shutdown');
     process.exit(1);
   }
 };
@@ -52,11 +54,11 @@ process.on('SIGINT', () => void gracefulShutdown('SIGINT'));
 
 // Manejo de errores no capturados
 process.on('unhandledRejection', (reason: unknown) => {
-  logger.error('Unhandled Rejection:', reason);
+  logger.error({ err: reason }, 'Unhandled Rejection');
   process.exit(1);
 });
 
 process.on('uncaughtException', (error: Error) => {
-  logger.error('Uncaught Exception:', error);
+  logger.error({ err: error }, 'Uncaught Exception');
   process.exit(1);
 });

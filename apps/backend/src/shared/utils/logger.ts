@@ -1,44 +1,31 @@
 /**
- * Utilidades para logging
+ * Logger configurado con Pino
  */
+import pino from 'pino';
 
-type LogLevel = 'info' | 'warn' | 'error' | 'debug';
+/**
+ * Configuración del logger según el entorno
+ */
+const createLogger = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isTest = process.env.NODE_ENV === 'test';
 
-class Logger {
-  private shouldLog(_level: LogLevel): boolean {
-    if (process.env.NODE_ENV === 'test') {
-      return false;
-    }
-    return true;
-  }
+  return pino({
+    level: process.env.LOG_LEVEL || (isDevelopment ? 'debug' : 'info'),
+    // En test, desactivar logging
+    enabled: !isTest,
+    // En desarrollo, usar pretty print para mejor legibilidad
+    transport: isDevelopment
+      ? {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'HH:MM:ss Z',
+            ignore: 'pid,hostname',
+          },
+        }
+      : undefined,
+  });
+};
 
-  info(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('info')) {
-      // eslint-disable-next-line no-console
-      console.log(`[INFO] ${message}`, ...args);
-    }
-  }
-
-  warn(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('warn')) {
-      // eslint-disable-next-line no-console
-      console.warn(`[WARN] ${message}`, ...args);
-    }
-  }
-
-  error(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('error')) {
-      // eslint-disable-next-line no-console
-      console.error(`[ERROR] ${message}`, ...args);
-    }
-  }
-
-  debug(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('debug') && process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
-      console.debug(`[DEBUG] ${message}`, ...args);
-    }
-  }
-}
-
-export const logger = new Logger();
+export const logger = createLogger();
