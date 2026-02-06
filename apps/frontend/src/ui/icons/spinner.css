@@ -1,0 +1,12 @@
+.spinner {
+  width: 1em;
+  height: 1em;
+}
+
+.spinner__circle {
+  opacity: 0.25;
+}
+
+.spinner__path {
+  opacity: 0.75;
+}
