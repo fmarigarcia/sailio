@@ -1,0 +1,101 @@
+/* Table Container */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+/* Table Sizes */
+.table-sm {
+  font-size: var(--font-size-sm);
+}
+
+.table-sm .table-cell {
+  padding: var(--space-2);
+}
+
+.table-md .table-cell {
+  padding: var(--space-3);
+}
+
+.table-lg .table-cell {
+  padding: var(--space-4);
+}
+
+/* Table Header */
+.table-header {
+  background-color: var(--color-gray-50);
+  border-bottom: 2px solid var(--color-gray-200);
+}
+
+.table-header .table-cell {
+  font-weight: var(--font-weight-semibold);
+  text-align: left;
+  color: var(--color-gray-700);
+}
+
+/* Table Body */
+.table-body .table-row {
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.table-body .table-row:last-child {
+  border-bottom: none;
+}
+
+/* Table Row */
+.table-row {
+  transition: background-color 0.15s ease;
+}
+
+/* Table Cell */
+.table-cell {
+  padding: var(--space-3);
+  vertical-align: middle;
+}
+
+.table-cell-left {
+  text-align: left;
+}
+
+.table-cell-center {
+  text-align: center;
+}
+
+.table-cell-right {
+  text-align: right;
+}
+
+/* Striped Variant */
+.table-striped .table-body .table-row:nth-child(even) {
+  background-color: var(--color-gray-50);
+}
+
+/* Hoverable Variant */
+.table-hoverable .table-body .table-row:hover {
+  background-color: var(--color-gray-100);
+  cursor: pointer;
+}
+
+/* Bordered Variant */
+.table-bordered {
+  border: 1px solid var(--color-gray-200);
+}
+
+.table-bordered .table-cell {
+  border: 1px solid var(--color-gray-200);
+}
+
+/* Responsive Table */
+@media (width <= 768px) {
+  .table {
+    font-size: var(--font-size-sm);
+  }
+
+  .table-cell {
+    padding: var(--space-2);
+  }
+}

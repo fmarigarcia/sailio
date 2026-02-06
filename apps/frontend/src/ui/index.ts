@@ -29,3 +29,12 @@ export type { ModalProps } from './Modal';
 
 export { Dropdown } from './Dropdown';
 export type { DropdownProps, DropdownItem, DropdownPosition, DropdownSize } from './Dropdown';
+
+export { Table } from './Table';
+export type {
+  TableProps,
+  TableHeaderProps,
+  TableBodyProps,
+  TableRowProps,
+  TableCellProps,
+} from './Table';
