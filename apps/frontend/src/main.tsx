@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App, Providers } from '@/app';
+import { Providers } from '@/app';
 import '@/shared/i18n';
 import '@/index.css';
 
@@ -12,8 +12,6 @@ if (!rootElement) {
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <Providers>
-      <App />
-    </Providers>
+    <Providers />
   </React.StrictMode>
 );

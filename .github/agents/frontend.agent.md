@@ -96,6 +96,10 @@ export const authApi = {
 - NO contienen JSX
 - Lógica reutilizable del dominio
 - Ejemplo: `useAuth.ts`, `useUserProfile.ts`
+- **IMPORTANTE**: Todos los hooks custom deben retornar `{ state: {...}, actions: {...} }`
+  - `state`: Propiedades de solo lectura (formData, errors, isLoading, etc.)
+  - `actions`: Funciones que modifican el estado (handleSubmit, handleChange, etc.)
+  - Ver `/docs/HOOKS.md` para documentación completa
 
 #### components/
 

@@ -1,7 +1,11 @@
 export { Spinner } from './Spinner';
+export type { SpinnerProps } from './Spinner';
 export { CloseIcon } from './CloseIcon';
 export { EmptyStateIcon } from './EmptyStateIcon';
 export { ErrorIcon } from './ErrorIcon';
 export { InfoIcon } from './InfoIcon';
 export { SuccessIcon } from './SuccessIcon';
 export { WarningIcon } from './WarningIcon';
+export { MenuIcon } from './MenuIcon';
+export type { MenuIconProps } from './MenuIcon';
+export { GlobeIcon } from './GlobeIcon';

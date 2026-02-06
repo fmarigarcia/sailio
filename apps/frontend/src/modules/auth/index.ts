@@ -6,3 +6,5 @@
 export type { User, LoginCredentials, RegisterData, AuthResponse } from './auth.types';
 export { authApi } from './auth.api';
 export { useProfile, useLogin, useRegister, useLogout, authKeys } from './hooks';
+export { authRoutes } from './auth.routes';
+export { LanguageSelector } from './components';
