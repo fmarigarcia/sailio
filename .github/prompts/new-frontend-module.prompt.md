@@ -1,7 +1,10 @@
 # Prompt: Crear Nuevo Módulo Frontend
 
 ## Objetivo
+
 Crear un nuevo módulo frontend siguiendo la arquitectura modular por dominio de Sailio.
+
+**IMPORTANTE**: NO crear README.md para el módulo. El código debe ser autodocumentado.
 
 ## Instrucciones para GitHub Copilot
 
@@ -42,6 +45,7 @@ apps/frontend/src/modules/{NOMBRE_MODULO}/
    - NO maneja estado ni lógica de UI
    - Usar cliente HTTP de `shared/http`
    - Ejemplo:
+
    ```typescript
    export const {modulo}Api = {
      getAll: async () => {
@@ -73,6 +77,7 @@ apps/frontend/src/modules/{NOMBRE_MODULO}/
    - Definir rutas del módulo con lazy loading
    - Layouts específicos si necesarios
    - Ejemplo:
+
    ```typescript
    export const {modulo}Routes = {
      path: '/{modulo}',
@@ -108,6 +113,7 @@ apps/frontend/src/modules/{NOMBRE_MODULO}/
 ### Internacionalización (I18N):
 
 Crear traducciones en:
+
 ```
 apps/frontend/src/locales/
   es/{NOMBRE_MODULO}.json
@@ -115,6 +121,7 @@ apps/frontend/src/locales/
 ```
 
 Estructura ejemplo:
+
 ```json
 {
   "{modulo}": {
@@ -142,6 +149,7 @@ Estructura ejemplo:
 {DESCRIBIR PÁGINAS NECESARIAS}
 
 Ejemplo:
+
 - Lista de {entidades} (con paginación, filtros, búsqueda)
 - Detalle de {entidad}
 - Crear nueva {entidad}
@@ -152,6 +160,7 @@ Ejemplo:
 {DESCRIBIR COMPONENTES ESPECÍFICOS DEL DOMINIO}
 
 Ejemplo:
+
 - {Entidad}Card
 - {Entidad}Form
 - {Entidad}Filters
@@ -162,6 +171,7 @@ Ejemplo:
 {DESCRIBIR HOOKS NECESARIOS}
 
 Ejemplo:
+
 - use{Entidades} - Fetch lista con paginación
 - use{Entidad} - Fetch detalle por ID
 - useCreate{Entidad} - Crear nueva entidad
@@ -171,6 +181,7 @@ Ejemplo:
 ### Integración con Backend:
 
 Endpoints a consumir:
+
 - GET `/api/{modulo}` - Listar
 - GET `/api/{modulo}/:id` - Detalle
 - POST `/api/{modulo}` - Crear
@@ -223,6 +234,7 @@ Consulta el módulo `auth` como referencia de implementación.
 {LISTAR COMPONENTES DEL DESIGN SYSTEM QUE SE USARÁN}
 
 Ejemplo:
+
 - Button
 - Input
 - Card

@@ -14,6 +14,7 @@ Sailio es un SaaS para entrenadores y regatistas de vela que permite llevar cont
 ## Reglas de Linting y Code Quality
 
 ### ESLint - Reglas Críticas (deben tirar error):
+
 - `no-console`: Sin console.log en producción
 - `max-lines`: Máximo 300 líneas (excluyendo blancos y comentarios)
   - Excepciones: archivos de test, estilos y Prisma
@@ -25,13 +26,16 @@ Sailio es un SaaS para entrenadores y regatistas de vela que permite llevar cont
 - `no-inline-styles`: Prohibido estilos inline
 
 ### Formatting
+
 - **Prettier**: Todo el código debe estar formateado
 - **Stylelint**: CSS debe cumplir las reglas de estilo
 
 ### Testing
+
 - Cobertura mínima: **80%** en todo el proyecto
 
 ### Pre-commit Hooks (Husky)
+
 - **Husky** está configurado en el proyecto para ejecutar verificaciones antes de cada commit
 - Los hooks automáticamente ejecutan:
   - `lint-staged`: Linting solo en archivos staged
@@ -56,6 +60,7 @@ Sailio es un SaaS para entrenadores y regatistas de vela que permite llevar cont
 ## Internacionalización (I18N)
 
 **CRÍTICO**: Todo el frontend debe estar traducido a español e inglés.
+
 - NO debe haber NINGÚN string suelto sin traducir
 - Usar siempre las claves de traducción
 - Verificar que cada nuevo string tenga su traducción en ambos idiomas
@@ -67,11 +72,21 @@ Sailio es un SaaS para entrenadores y regatistas de vela que permite llevar cont
 - Tests unitarios y de integración según corresponda
 - Para componentes React: incluir tests de rendering y comportamiento
 
+## Documentación
+
+**IMPORTANTE**: NO crear archivos README.md para componentes o módulos individuales.
+
+- Los componentes UI se documentan en Storybook
+- Los módulos se documentan con comentarios JSDoc cuando sea necesario
+- La documentación de arquitectura va en `docs/`
+- READMEs solo para el proyecto y packages
+
 ## Consultar Agentes Especializados
 
 **¿No sabes qué agente necesitas?** Consulta primero `@orchestrator-agent`
 
 Para tareas específicas, consulta los agentes especializados:
+
 - `orchestrator.agent.md`: Analiza tu solicitud y te guía al agente apropiado
 - `backend.agent.md`: Desarrollo backend y API
 - `frontend.agent.md`: Desarrollo frontend y componentes
@@ -81,6 +96,7 @@ Para tareas específicas, consulta los agentes especializados:
 ## Consultar Prompts Predefinidos
 
 En `.github/prompts/` encontrarás plantillas para:
+
 - Crear nuevos módulos backend
 - Crear nuevos módulos frontend
 - Añadir componentes UI con Storybook

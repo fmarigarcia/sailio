@@ -1,7 +1,10 @@
 # Prompt: Crear Nuevo Módulo Backend
 
 ## Objetivo
+
 Crear un nuevo módulo backend siguiendo la arquitectura por dominio de Sailio.
+
+**IMPORTANTE**: NO crear README.md para el módulo. El código debe ser autodocumentado.
 
 ## Instrucciones para GitHub Copilot
 
@@ -53,7 +56,7 @@ apps/backend/src/modules/{NOMBRE_MODULO}/
 6. **index.ts**:
    - Exportar lo público del módulo
 
-7. **__tests__/**:
+7. \***\*tests**/\*\*:
    - Tests unitarios de service (lógica de negocio)
    - Tests unitarios de controller
    - Tests de integración de endpoints (supertest)
@@ -76,6 +79,7 @@ apps/backend/src/modules/{NOMBRE_MODULO}/
 {DESCRIBIR AQUÍ LAS FUNCIONALIDADES ESPECÍFICAS DEL MÓDULO}
 
 Ejemplo:
+
 - Crear {entidad}
 - Listar {entidades} (con paginación)
 - Obtener {entidad} por ID
@@ -91,6 +95,7 @@ Ejemplo:
 {LISTAR ERRORES ESPECÍFICOS DEL DOMINIO}
 
 Ejemplo:
+
 - {Entidad}NotFoundError
 - {Entidad}AlreadyExistsError
 - Unauthorized{Action}Error

@@ -4,6 +4,8 @@
 
 Crear un nuevo componente para el design system interno (carpeta `ui/`) con su respectiva documentación en Storybook.
 
+**IMPORTANTE**: NO crear README.md para el componente. La documentación se hace en Storybook.
+
 ## Instrucciones para GitHub Copilot
 
 Por favor, crea un nuevo componente UI llamado `{NOMBRE_COMPONENTE}` con la siguiente estructura:
