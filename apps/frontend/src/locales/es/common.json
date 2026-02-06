@@ -34,5 +34,17 @@
     "email": "Debe ser un email válido",
     "minLength": "Debe tener al menos {{min}} caracteres",
     "maxLength": "No puede exceder {{max}} caracteres"
+  },
+  "ui": {
+    "checkbox": {
+      "label": "Casilla de verificación",
+      "checked": "Seleccionado",
+      "unchecked": "No seleccionado"
+    },
+    "radio": {
+      "label": "Botón de opción",
+      "selected": "Seleccionado",
+      "unselected": "No seleccionado"
+    }
   }
 }
