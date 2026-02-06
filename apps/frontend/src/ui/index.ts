@@ -1,4 +1,6 @@
 // UI components will be exported from here
+export { Select } from './Select';
+export type { SelectProps, SelectOption } from './Select';
 
 export { Input } from './Input';
 export type { InputProps } from './Input';
