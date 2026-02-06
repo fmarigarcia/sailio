@@ -1,4 +1,4 @@
-import { forwardRef, KeyboardEvent, ChangeEvent, useId } from 'react';
+import { forwardRef, ChangeEvent, useId } from 'react';
 import './select.css';
 
 export interface SelectOption {
@@ -101,18 +101,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       }
     };
 
-    const handleKeyDown = (event: KeyboardEvent<HTMLSelectElement>) => {
-      // Native select already handles keyboard navigation
-      // This is here for potential future enhancements
-      const key = event.key;
-
-      // Allow default select behavior for accessibility
-      if (['ArrowDown', 'ArrowUp', 'Enter', 'Space', 'Escape', 'Tab'].includes(key)) {
-        // Let native behavior handle it
-        return;
-      }
-    };
-
     const selectClassName = [
       'select',
       `select--${size}`,
@@ -133,7 +121,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           value={value || ''}
           onChange={handleChange}
           onBlur={onBlur}
-          onKeyDown={handleKeyDown}
           disabled={disabled}
           className={selectClassName}
           aria-label={ariaLabel}
