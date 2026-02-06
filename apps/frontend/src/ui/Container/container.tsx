@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import clsx from 'clsx';
 import './container.css';
 
 export interface ContainerProps {
@@ -14,11 +15,11 @@ const Container: React.FC<ContainerProps> = ({
   as: Component = 'div',
   children,
 }) => {
-  const classNames = ['container', `container--${size}`, padding && 'container--padding']
-    .filter(Boolean)
-    .join(' ');
-
-  return <Component className={classNames}>{children}</Component>;
+  return (
+    <Component className={clsx('container', `container--${size}`, padding && 'container--padding')}>
+      {children}
+    </Component>
+  );
 };
 
 export default Container;

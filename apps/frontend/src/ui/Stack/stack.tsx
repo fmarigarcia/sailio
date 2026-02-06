@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import clsx from 'clsx';
 import './stack.css';
 
 export interface StackProps {
@@ -20,18 +21,20 @@ const Stack: React.FC<StackProps> = ({
   as: Component = 'div',
   children,
 }) => {
-  const classNames = [
-    'stack',
-    `stack--${direction}`,
-    `stack--spacing-${spacing}`,
-    `stack--align-${align}`,
-    justify && `stack--justify-${justify}`,
-    wrap && 'stack--wrap',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  return <Component className={classNames}>{children}</Component>;
+  return (
+    <Component
+      className={clsx(
+        'stack',
+        `stack--${direction}`,
+        `stack--spacing-${spacing}`,
+        `stack--align-${align}`,
+        justify && `stack--justify-${justify}`,
+        wrap && 'stack--wrap'
+      )}
+    >
+      {children}
+    </Component>
+  );
 };
 
 export default Stack;
