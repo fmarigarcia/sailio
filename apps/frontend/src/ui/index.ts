@@ -50,3 +50,6 @@ export type { StackProps } from './Stack';
 
 export { Container } from './Container';
 export type { ContainerProps } from './Container';
+
+export { Tooltip } from './Tooltip';
+export type { TooltipProps, TooltipPosition } from './Tooltip';

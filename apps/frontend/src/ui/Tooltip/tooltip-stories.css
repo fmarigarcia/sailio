@@ -1,0 +1,90 @@
+/* Storybook demo styles for Tooltip */
+
+.tooltip-demo-container {
+  display: flex;
+  gap: 32px;
+  padding: 100px;
+}
+
+.tooltip-demo-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.tooltip-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 50px;
+}
+
+.tooltip-demo-grid-item {
+  padding: 16px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tooltip-demo-dashboard {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.tooltip-demo-dashboard-header {
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltip-demo-dashboard-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.tooltip-demo-metric-card {
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.tooltip-demo-metric-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.tooltip-demo-metric-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.tooltip-demo-text-input {
+  margin-left: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.tooltip-demo-label {
+  padding: 50px;
+}
+
+.tooltip-demo-flex-column {
+  padding: 50px;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+}
+
+.tooltip-demo-flex-row {
+  display: flex;
+  gap: 16px;
+}
