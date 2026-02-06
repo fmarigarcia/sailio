@@ -9,7 +9,7 @@ Aplicación web frontend del proyecto Sailio, desarrollada con Vite + React + Ty
 - **TypeScript** - Lenguaje de programación
 - **React Router** - Enrutamiento
 - **React i18next** - Internacionalización (ES/EN)
-- **Axios** - Cliente HTTP
+- **TanStack Query (React Query)** - Gestión de estado del servidor y caching
 - **Vitest** - Framework de testing
 - **Testing Library** - Testing de componentes React
 - **Storybook** - Desarrollo aislado de componentes UI
@@ -155,6 +155,97 @@ Código transversal que NO pertenece a ningún dominio:
 - Configuración i18n
 
 **IMPORTANTE**: NO contiene lógica de negocio.
+
+## 🔄 Gestión de Estado del Servidor (React Query)
+
+El proyecto usa **TanStack Query** (React Query) para gestionar el estado del servidor con caching automático.
+
+### Configuración
+
+El `QueryClient` está configurado en `app/query-client.ts` y envuelve toda la app mediante `app/providers.tsx`.
+
+### Cliente HTTP
+
+Se usa un cliente HTTP nativo basado en `fetch` (sin axios) ubicado en `shared/http/api-client.ts`:
+
+```typescript
+import { apiClient } from '@/shared';
+
+// GET request
+const data = await apiClient.get<User>('/users/profile');
+
+// POST request
+const created = await apiClient.post<User>('/users', userData);
+```
+
+### Ejemplo de Uso con React Query
+
+**Archivo API** (`{dominio}.api.ts`):
+
+```typescript
+import { apiClient } from '@/shared';
+
+export const authApi = {
+  login: async (credentials: LoginDto): Promise<AuthResponse> => {
+    return apiClient.post('/auth/login', credentials);
+  },
+
+  getProfile: async (): Promise<User> => {
+    return apiClient.get('/auth/profile');
+  },
+};
+```
+
+**Hook con Query** (`hooks/useAuth.ts`):
+
+```typescript
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { authApi } from '../auth.api';
+
+export const authKeys = {
+  all: ['auth'] as const,
+  profile: () => [...authKeys.all, 'profile'] as const,
+};
+
+export function useProfile() {
+  return useQuery({
+    queryKey: authKeys.profile(),
+    queryFn: authApi.getProfile,
+  });
+}
+
+export function useLogin() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: authApi.login,
+    onSuccess: (data) => {
+      queryClient.setQueryData(authKeys.profile(), data.user);
+    },
+  });
+}
+```
+
+**Uso en Componente**:
+
+```typescript
+function ProfilePage() {
+  const { data: user, isLoading, error } = useProfile();
+
+  if (isLoading) return <Spinner />;
+  if (error) return <Alert variant="danger">{error.message}</Alert>;
+
+  return <div>{user.name}</div>;
+}
+```
+
+### DevTools
+
+Las React Query DevTools están habilitadas en desarrollo. Aparecen como un icono flotante en la esquina inferior izquierda.
+
+### Documentación Completa
+
+Para patrones avanzados, optimistic updates, invalidación de cache y más, consulta [docs/REACT_QUERY.md](../../docs/REACT_QUERY.md).
 
 ## 🌍 Internacionalización (I18N)
 

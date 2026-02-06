@@ -12,7 +12,7 @@ export interface AuthRequest extends Request {
 /**
  * Middleware para proteger rutas que requieren autenticación
  */
-export function authenticate(req: Request, res: Response, next: NextFunction): void {
+export function authenticate(req: Request, _res: Response, next: NextFunction): void {
   try {
     const authHeader = req.headers.authorization;
 
@@ -39,7 +39,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
  * Middleware opcional de autenticación
  * No falla si no hay token, pero si hay uno lo valida
  */
-export function optionalAuthenticate(req: Request, res: Response, next: NextFunction): void {
+export function optionalAuthenticate(req: Request, _res: Response, next: NextFunction): void {
   try {
     const authHeader = req.headers.authorization;
 

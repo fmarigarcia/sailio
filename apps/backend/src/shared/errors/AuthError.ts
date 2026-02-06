@@ -1,11 +1,5 @@
 import { AppError } from './AppError';
 
-export class UnauthorizedError extends AppError {
-  constructor(message = 'No autorizado') {
-    super(message, 401);
-  }
-}
-
 export class InvalidCredentialsError extends AppError {
   constructor(message = 'Credenciales inválidas') {
     super(message, 401);

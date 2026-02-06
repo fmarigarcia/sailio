@@ -1,0 +1,37 @@
+import { apiClient } from '@/shared';
+import type { User, LoginCredentials, RegisterData, AuthResponse } from './auth.types';
+
+/**
+ * API del módulo de autenticación.
+ * ÚNICAMENTE llamadas al backend y mapeo de datos.
+ */
+
+export const authApi = {
+  /**
+   * Inicia sesión con credenciales.
+   */
+  login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
+    return apiClient.post<AuthResponse>('/auth/login', credentials);
+  },
+
+  /**
+   * Registra un nuevo usuario.
+   */
+  register: async (data: RegisterData): Promise<AuthResponse> => {
+    return apiClient.post<AuthResponse>('/auth/register', data);
+  },
+
+  /**
+   * Obtiene el perfil del usuario autenticado.
+   */
+  getProfile: async (): Promise<User> => {
+    return apiClient.get<User>('/auth/profile');
+  },
+
+  /**
+   * Cierra sesión.
+   */
+  logout: async (): Promise<void> => {
+    return apiClient.post<void>('/auth/logout');
+  },
+};
