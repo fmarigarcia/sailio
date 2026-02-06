@@ -8,8 +8,14 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
+    project: './tsconfig.json',
   },
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'prettier',
+  ],
   plugins: ['@typescript-eslint'],
   rules: {
     // Reglas críticas del proyecto Sailio
@@ -66,5 +72,6 @@ module.exports = {
     '.next/',
     '*.config.js',
     '*.config.ts',
+    '.eslintrc.js',
   ],
 };
