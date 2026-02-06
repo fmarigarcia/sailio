@@ -158,6 +158,8 @@ export const authRoutes = {
 
 ```typescript
 // Button/button.tsx
+import React from 'react';
+
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'danger';
   size?: 'sm' | 'md' | 'lg';
@@ -166,10 +168,14 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export function Button({ variant = 'primary', size = 'md', ...props }: ButtonProps) {
+const Button: React.FC<ButtonProps> = ({ variant = 'primary', size = 'md', ...props }) => {
   return <button className={`btn btn-${variant} btn-${size}`} {...props} />;
-}
+};
+
+export { Button };
 ```
+
+**Nota**: Para componentes que necesiten `ref`, usar `forwardRef` manteniendo la misma estructura de export separado.
 
 ### Tokens de diseño
 
@@ -321,6 +327,7 @@ apps/frontend/src/locales/
 - ❌ Estilos inline (`style={{}}`)
 - ❌ Lógica de negocio en componentes UI
 - ❌ Comentarios JSDoc en las props de componentes UI
+- ❌ Export inline (usar export separado del componente)
 
 ## Reglas de Linting Frontend
 

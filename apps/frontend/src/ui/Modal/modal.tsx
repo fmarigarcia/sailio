@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import './modal.css';
 
@@ -13,7 +13,7 @@ export interface ModalProps {
   showCloseButton?: boolean;
 }
 
-export function Modal({
+const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   title,
@@ -22,7 +22,7 @@ export function Modal({
   size = 'md',
   closeOnOverlayClick = true,
   showCloseButton = true,
-}: ModalProps) {
+}) => {
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
@@ -130,4 +130,6 @@ export function Modal({
       </div>
     </div>
   );
-}
+};
+
+export { Modal };

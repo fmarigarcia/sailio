@@ -30,7 +30,7 @@ const buildInputClasses = (
     .join(' ');
 };
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       label,
@@ -99,3 +99,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 
 Input.displayName = 'Input';
+
+export { Input };

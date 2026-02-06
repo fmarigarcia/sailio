@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Spinner } from '../icons';
 import './button.css';
 
@@ -17,7 +17,7 @@ export interface ButtonProps extends Omit<
   type?: 'button' | 'submit' | 'reset';
 }
 
-export function Button({
+const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   loading = false,
@@ -25,7 +25,7 @@ export function Button({
   type = 'button',
   children,
   ...props
-}: ButtonProps) {
+}) => {
   const isDisabled = disabled || loading;
 
   return (
@@ -46,4 +46,6 @@ export function Button({
       </span>
     </button>
   );
-}
+};
+
+export { Button };

@@ -25,7 +25,7 @@ export interface SelectProps {
   required?: boolean;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+const Select = forwardRef<HTMLSelectElement, SelectProps>(
   (
     {
       id: providedId,
@@ -105,3 +105,5 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 );
 
 Select.displayName = 'Select';
+
+export { Select };

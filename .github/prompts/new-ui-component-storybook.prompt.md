@@ -22,6 +22,7 @@ apps/frontend/src/ui/{Component}/
 
 1. **{component}.tsx**:
    - Componente React funcional con TypeScript
+   - Estructura: `const Component: React.FC<Props> = () => ...` con export separado
    - Props bien definidas con interface/type
    - NO lógica de negocio
    - Props mínimas necesarias
@@ -31,8 +32,11 @@ apps/frontend/src/ui/{Component}/
    Ejemplo:
 
    ```typescript
+   import React, { ButtonHTMLAttributes, ReactNode } from 'react';
+   import './button.css';
+
    // Props sin comentarios JSDoc - los tipos son autodocumentados
-   interface ButtonProps {
+   interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'style'> {
      variant?: 'primary' | 'secondary' | 'danger';
      size?: 'sm' | 'md' | 'lg';
      children: ReactNode;
@@ -41,14 +45,14 @@ apps/frontend/src/ui/{Component}/
      type?: 'button' | 'submit' | 'reset';
    }
 
-   export function Button({
+   const Button: React.FC<ButtonProps> = ({
      variant = 'primary',
      size = 'md',
      type = 'button',
      disabled = false,
      children,
      onClick
-   }: ButtonProps) {
+   }) => {
      return (
        <button
          type={type}
@@ -59,7 +63,33 @@ apps/frontend/src/ui/{Component}/
          {children}
        </button>
      );
+   };
+
+   export { Button };
+   ```
+
+   **Para componentes con ref**: usar `forwardRef` manteniendo export separado:
+
+   ```typescript
+   import React, { forwardRef, InputHTMLAttributes } from 'react';
+
+   interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+     label?: string;
+     error?: string;
    }
+
+   const Input = forwardRef<HTMLInputElement, InputProps>(({ label, error, ...props }, ref) => {
+     return (
+       <div>
+         {label && <label>{label}</label>}
+         <input ref={ref} {...props} />
+       </div>
+     );
+   });
+
+   Input.displayName = 'Input';
+
+   export { Input };
    ```
 
 2. **{component}.css**:
@@ -282,6 +312,7 @@ Si necesitas nuevos tokens, créalos en los archivos correspondientes:
 ### Reglas Importantes:
 
 - ✅ NO lógica de negocio en el componente
+- ✅ Estructura: `const Component: React.FC<Props> = () => ...` con export separado
 - ✅ Props mínimas y cerradas (no infinitas opciones)
 - ✅ Props sin comentarios JSDoc (los tipos son autodocumentados)
 - ✅ Sin estilos inline (`style={{}}`)

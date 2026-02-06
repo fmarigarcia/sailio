@@ -8,7 +8,7 @@ export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
   helperText?: string;
 }
 
-export const Radio = forwardRef<HTMLInputElement, RadioProps>(
+const Radio = forwardRef<HTMLInputElement, RadioProps>(
   ({ label, error = false, errorMessage, helperText, className = '', disabled, ...props }, ref) => {
     const radioId = props.id || `radio-${crypto.randomUUID()}`;
 
@@ -40,3 +40,5 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
 );
 
 Radio.displayName = 'Radio';
+
+export { Radio };
