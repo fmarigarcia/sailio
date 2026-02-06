@@ -14,7 +14,7 @@ export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ label, error = false, errorMessage, helperText, className = '', disabled, ...props }, ref) => {
-    const checkboxId = props.id || `checkbox-${Math.random().toString(36).substr(2, 9)}`;
+    const checkboxId = props.id || `checkbox-${crypto.randomUUID()}`;
 
     return (
       <div className={`checkbox-wrapper ${className}`}>
