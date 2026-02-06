@@ -37,5 +37,17 @@
     "email": "Must be a valid email",
     "minLength": "Must be at least {{min}} characters",
     "maxLength": "Cannot exceed {{max}} characters"
+  },
+  "ui": {
+    "checkbox": {
+      "label": "Checkbox",
+      "checked": "Checked",
+      "unchecked": "Unchecked"
+    },
+    "radio": {
+      "label": "Radio button",
+      "selected": "Selected",
+      "unselected": "Unselected"
+    }
   }
 }
