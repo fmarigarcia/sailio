@@ -38,3 +38,6 @@ export type {
   TableRowProps,
   TableCellProps,
 } from './Table';
+
+export { Stack } from './Stack';
+export type { StackProps } from './Stack';

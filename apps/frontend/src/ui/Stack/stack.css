@@ -1,0 +1,84 @@
+.stack {
+  display: flex;
+}
+
+/* Direction */
+.stack--vertical {
+  flex-direction: column;
+}
+
+.stack--horizontal {
+  flex-direction: row;
+}
+
+/* Spacing using tokens */
+.stack--spacing-xs {
+  gap: var(--space-xs);
+}
+
+.stack--spacing-sm {
+  gap: var(--space-sm);
+}
+
+.stack--spacing-md {
+  gap: var(--space-md);
+}
+
+.stack--spacing-lg {
+  gap: var(--space-lg);
+}
+
+.stack--spacing-xl {
+  gap: var(--space-xl);
+}
+
+.stack--spacing-2xl {
+  gap: var(--space-2xl);
+}
+
+.stack--spacing-3xl {
+  gap: var(--space-3xl);
+}
+
+/* Alignment */
+.stack--align-start {
+  align-items: flex-start;
+}
+
+.stack--align-center {
+  align-items: center;
+}
+
+.stack--align-end {
+  align-items: flex-end;
+}
+
+.stack--align-stretch {
+  align-items: stretch;
+}
+
+/* Justify */
+.stack--justify-start {
+  justify-content: flex-start;
+}
+
+.stack--justify-center {
+  justify-content: center;
+}
+
+.stack--justify-end {
+  justify-content: flex-end;
+}
+
+.stack--justify-space-between {
+  justify-content: space-between;
+}
+
+.stack--justify-space-around {
+  justify-content: space-around;
+}
+
+/* Wrap */
+.stack--wrap {
+  flex-wrap: wrap;
+}
