@@ -35,46 +35,51 @@ export function Modal({
     previousActiveElement.current = document.activeElement as HTMLElement;
 
     // Focus modal on open
-    const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
+    const getFocusableElements = () => {
+      return modalRef.current?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+    };
+
+    const focusableElements = getFocusableElements();
 
     if (focusableElements && focusableElements.length > 0) {
       focusableElements[0].focus();
     }
 
-    // Handle ESC key
-    const handleEscape = (event: KeyboardEvent) => {
+    // Combined keyboard handler for ESC and Tab
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Handle ESC key
       if (event.key === 'Escape') {
         onClose();
+        return;
+      }
+
+      // Handle Tab key for focus trap
+      if (event.key === 'Tab') {
+        const elements = getFocusableElements();
+        if (!elements || elements.length === 0) return;
+
+        const firstElement = elements[0];
+        const lastElement = elements[elements.length - 1];
+
+        if (event.shiftKey && document.activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+        } else if (!event.shiftKey && document.activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
       }
     };
 
-    // Focus trap
-    const handleTab = (event: KeyboardEvent) => {
-      if (event.key !== 'Tab' || !focusableElements) return;
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      if (event.shiftKey && document.activeElement === firstElement) {
-        event.preventDefault();
-        lastElement.focus();
-      } else if (!event.shiftKey && document.activeElement === lastElement) {
-        event.preventDefault();
-        firstElement.focus();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    document.addEventListener('keydown', handleTab);
+    document.addEventListener('keydown', handleKeyDown);
 
     // Prevent body scroll
     document.body.style.overflow = 'hidden';
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('keydown', handleTab);
+      document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
 
       // Restore focus to previous element
