@@ -48,6 +48,21 @@
       "label": "Radio button",
       "selected": "Selected",
       "unselected": "Unselected"
+    },
+    "emptyState": {
+      "noItemsFound": "No items found",
+      "noResults": "No results",
+      "noData": "No data available",
+      "empty": "Empty",
+      "nothingToShow": "Nothing to show",
+      "getStarted": "Get Started",
+      "createFirst": "Create First",
+      "addItem": "Add Item",
+      "learnMore": "Learn More",
+      "tryAgain": "Try Again",
+      "adjustFilters": "Try adjusting your search or filters.",
+      "noItemsYet": "No items here yet.",
+      "startByCreating": "Start by creating the first one."
     }
   }
 }

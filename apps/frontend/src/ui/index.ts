@@ -56,3 +56,6 @@ export type { TooltipProps, TooltipPosition } from './Tooltip';
 
 export { Spinner } from './Spinner';
 export type { SpinnerProps } from './Spinner';
+
+export { EmptyState } from './EmptyState';
+export type { EmptyStateProps, EmptyStateAction, EmptyStateSize } from './EmptyState';

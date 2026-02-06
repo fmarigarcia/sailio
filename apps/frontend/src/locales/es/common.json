@@ -48,6 +48,21 @@
       "label": "Botón de opción",
       "selected": "Seleccionado",
       "unselected": "No seleccionado"
+    },
+    "emptyState": {
+      "noItemsFound": "No se encontraron elementos",
+      "noResults": "Sin resultados",
+      "noData": "No hay datos disponibles",
+      "empty": "Vacío",
+      "nothingToShow": "No hay nada que mostrar",
+      "getStarted": "Comenzar",
+      "createFirst": "Crear el primero",
+      "addItem": "Agregar elemento",
+      "learnMore": "Más información",
+      "tryAgain": "Intentar nuevamente",
+      "adjustFilters": "Intenta ajustar tus filtros de búsqueda.",
+      "noItemsYet": "Aún no hay elementos aquí.",
+      "startByCreating": "Comienza creando el primero."
     }
   }
 }
