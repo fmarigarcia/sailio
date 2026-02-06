@@ -1,4 +1,4 @@
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, useCallback, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLogin as useLoginMutation } from '../../hooks/useAuth';
@@ -78,13 +78,13 @@ export function useLogin() {
     }
   };
 
-  const handleRegisterClick = () => {
+  const handleRegisterClick = useCallback(() => {
     navigate('/register');
-  };
+  }, [navigate]);
 
-  const handleForgotPasswordClick = () => {
+  const handleForgotPasswordClick = useCallback(() => {
     navigate('/forgot-password');
-  };
+  }, [navigate]);
 
   return {
     state: {

@@ -321,6 +321,193 @@ apps/frontend/src/locales/
 - `formatDate.ts`
 - `validateEmail.ts`
 
+## Optimización en React: useMemo y useCallback
+
+**Idea central**: `useMemo` y `useCallback` son **optimizaciones**, no abstracciones.
+
+Si no tienes un problema concreto, no los necesitas.
+
+### Qué hacen realmente
+
+- **useMemo** → cachea un valor
+- **useCallback** → cachea una función
+
+Nada más. No "hacen el código mejor" ni "más limpio".
+
+### Cuándo SÍ usar useMemo
+
+#### 1. Cálculos caros
+
+Si el cálculo:
+
+- es costoso
+- depende de props/state
+- se ejecuta en cada render
+
+```typescript
+const filteredUsers = useMemo(() => users.filter((u) => u.isActive), [users]);
+```
+
+Sin `useMemo`, ese filter corre en cada render.
+
+#### 2. Valores derivados que rompen memoización
+
+Cuando pasas objetos/arrays a componentes memoizados:
+
+```typescript
+const columns = useMemo(
+  () => [
+    { key: 'name', label: 'Name' },
+    { key: 'email', label: 'Email' },
+  ],
+  []
+);
+```
+
+Sin esto, el componente hijo recibe un objeto nuevo cada render y vuelve a renderizar.
+
+#### 3. Dependencias de hooks
+
+Cuando un valor calculado entra en un `useEffect` o similar:
+
+```typescript
+const params = useMemo(
+  () => ({
+    page,
+    pageSize,
+  }),
+  [page, pageSize]
+);
+
+useEffect(() => {
+  fetchData(params);
+}, [params]);
+```
+
+Evita loops y renders innecesarios.
+
+### Cuándo NO usar useMemo
+
+#### 1. Cálculos baratos
+
+❌ Esto es ruido:
+
+```typescript
+const fullName = useMemo(() => `${firstName} ${lastName}`, [firstName, lastName]);
+```
+
+El coste del `useMemo` > el coste del cálculo.
+
+#### 2. "Por si acaso"
+
+Si no puedes explicar qué problema estás evitando, sobra.
+
+"Lo puse para optimizar" → No es una razón válida.
+
+#### 3. Para "limpiar" el código
+
+`useMemo` no mejora legibilidad. Muchas veces la empeora.
+
+### Cuándo SÍ usar useCallback
+
+#### 1. Pasas funciones a componentes memoizados
+
+Caso clásico:
+
+```typescript
+const handleClick = useCallback(() => {
+  onSelect(id);
+}, [id, onSelect]);
+
+return <Row onClick={handleClick} />;
+```
+
+Sin `useCallback`, `Row` se renderiza siempre aunque esté memoizado.
+
+#### 2. Dependencia de otros hooks
+
+Cuando una función entra en un `useEffect`:
+
+```typescript
+const loadUser = useCallback(async () => {
+  await fetchUser(id);
+}, [id]);
+
+useEffect(() => {
+  loadUser();
+}, [loadUser]);
+```
+
+Esto evita efectos que se disparan de más.
+
+#### 3. APIs estables
+
+Si expones callbacks desde un hook:
+
+```typescript
+return {
+  state: { ... },
+  actions: {
+    submit,  // ← useCallback
+    reset,   // ← useCallback
+  }
+};
+```
+
+Que esas funciones no cambien ayuda a quien consume el hook.
+
+### Cuándo NO usar useCallback
+
+#### 1. Funciones locales simples
+
+❌ Esto es innecesario:
+
+```typescript
+const handleChange = useCallback((e) => setValue(e.target.value), []);
+```
+
+No estás ganando nada.
+
+#### 2. Componentes no memoizados
+
+Si el hijo no usa `React.memo`, `useCallback` no aporta nada.
+
+#### 3. Optimización prematura
+
+`useCallback` también tiene coste:
+
+- memoria
+- complejidad mental
+- dependencias frágiles
+
+### Regla práctica para SaaS
+
+En apps reales:
+
+- **80%** de los componentes → no necesitan ninguno
+- **15%** → `useCallback`
+- **5%** → `useMemo`
+
+Si ves muchos `useMemo` por todos lados → huele a overengineering.
+
+### Señales de que DEBES usarlos
+
+- listas grandes
+- tablas
+- dashboards
+- componentes memoizados
+- renders lentos **medibles**
+
+Si no hay problema observable, no optimices.
+
+### Regla de oro
+
+**Primero escribe código claro.**  
+**Luego mide.**  
+**Luego optimiza.**
+
+`useMemo` y `useCallback` son bisturí, no martillo.
+
 ## Anti-patrones a Evitar
 
 - ❌ Carpetas globales `components/`, `hooks/`, `services/`

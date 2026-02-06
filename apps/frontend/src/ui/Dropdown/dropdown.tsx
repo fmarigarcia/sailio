@@ -47,7 +47,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const handleToggle = useCallback(() => {
+  const handleToggle = () => {
     if (disabled) return;
 
     setIsOpen((prev) => {
@@ -59,7 +59,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       }
       return newState;
     });
-  }, [disabled, onOpen, onClose]);
+  };
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
