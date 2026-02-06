@@ -1,0 +1,55 @@
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* Size variants */
+.container--sm {
+  max-width: 640px;
+}
+
+.container--md {
+  max-width: 768px;
+}
+
+.container--lg {
+  max-width: 1024px;
+}
+
+.container--xl {
+  max-width: 1280px;
+}
+
+.container--2xl {
+  max-width: 1536px;
+}
+
+.container--full {
+  max-width: 100%;
+}
+
+.container--fluid {
+  max-width: none;
+}
+
+/* Padding */
+.container--padding {
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+/* Responsive padding - aumenta en pantallas grandes */
+@media (width >= 640px) {
+  .container--padding {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+}
+
+@media (width >= 1024px) {
+  .container--padding {
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
+}
