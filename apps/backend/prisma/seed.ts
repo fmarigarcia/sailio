@@ -3,6 +3,7 @@
  * Populates the development database with sample data for testing
  */
 
+import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import type { Athlete, Session } from '@prisma/client';
