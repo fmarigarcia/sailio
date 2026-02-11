@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { AuthService } from '../auth.service';
 import { prisma } from '../../../shared/db';
@@ -20,6 +19,7 @@ vi.mock('../../../shared/db', () => ({
     },
     refreshToken: {
       findUnique: vi.fn(),
+      findMany: vi.fn(),
       create: vi.fn(),
       update: vi.fn(),
       updateMany: vi.fn(),
@@ -235,16 +235,22 @@ describe('AuthService', () => {
         createdAt: new Date(),
       };
 
-      const mockBcryptHash = vi.mocked(bcrypt.hash);
-      const mockRefreshTokenFindUnique = vi.mocked(prisma.refreshToken.findUnique);
+      const mockJwtVerify = vi.mocked(jwt.verify);
+      const mockBcryptCompare = vi.mocked(bcrypt.compare);
+      const mockRefreshTokenFindMany = vi.mocked(prisma.refreshToken.findMany);
       const mockRefreshTokenUpdate = vi.mocked(prisma.refreshToken.update);
 
-      mockBcryptHash.mockResolvedValue('hashedtoken' as never);
-      mockRefreshTokenFindUnique.mockResolvedValue(mockToken);
+      mockJwtVerify.mockReturnValue({ userId: '123', type: 'refresh' } as never);
+      mockRefreshTokenFindMany.mockResolvedValue([mockToken]);
+      mockBcryptCompare.mockResolvedValue(true as never);
       mockRefreshTokenUpdate.mockResolvedValue({} as never);
 
       await authService.logout({ refreshToken: 'validtoken' });
 
+      expect(mockRefreshTokenFindMany).toHaveBeenCalledWith({
+        where: { userId: '123', isRevoked: false },
+      });
+      expect(mockBcryptCompare).toHaveBeenCalledWith('validtoken', 'hashedtoken');
       expect(mockRefreshTokenUpdate).toHaveBeenCalledWith({
         where: { id: 'token123' },
         data: expect.objectContaining({

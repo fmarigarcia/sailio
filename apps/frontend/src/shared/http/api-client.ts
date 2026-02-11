@@ -3,31 +3,14 @@
  * Configurado con interceptores para manejo de errores y autenticación.
  */
 
+import type { ApiError, ApiResponse, RequestOptions, RefreshResponse } from './api-client.types';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000/api';
 
-export interface ApiError {
-  message: string;
-  status: number;
-  code?: string;
-}
-
-/**
- * Formato de respuesta estándar del backend
- */
-interface ApiResponse<T> {
-  status: 'success' | 'error';
-  data: T;
-}
-
-/**
- * Opciones para las peticiones HTTP.
- */
-interface RequestOptions {
-  method?: string;
-  headers?: Record<string, string>;
-  body?: string;
-  credentials?: 'include' | 'omit' | 'same-origin';
-}
+// Variables para controlar el estado del refresh
+let isRefreshing = false;
+let refreshPromise: Promise<string> | null = null;
+let sessionExpired = false; // Flag para detener TODAS las peticiones
 
 /**
  * Obtiene el token de autenticación del localStorage.
@@ -37,9 +20,129 @@ function getAuthToken(): string | null {
 }
 
 /**
+ * Obtiene el refresh token del localStorage.
+ */
+function getRefreshToken(): string | null {
+  return localStorage.getItem('refreshToken');
+}
+
+/**
+ * Renueva el access token usando el refresh token.
+ * Evita múltiples llamadas simultáneas devolviendo la misma Promise.
+ * Si falla, marca sessionExpired y detiene TODAS las peticiones.
+ */
+async function refreshAccessToken(): Promise<string> {
+  // Si ya hay un refresh en progreso, devolver la misma Promise
+  if (isRefreshing && refreshPromise) {
+    return refreshPromise;
+  }
+
+  isRefreshing = true;
+
+  refreshPromise = (async () => {
+    try {
+      const refreshToken = getRefreshToken();
+
+      if (!refreshToken) {
+        throw new Error('NO_REFRESH_TOKEN');
+      }
+
+      // Llamar al endpoint de refresh SIN el interceptor (usar fetch directo para evitar loop)
+      const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ refreshToken }),
+      });
+
+      if (!response.ok) {
+        throw new Error('REFRESH_FAILED');
+      }
+
+      const result: ApiResponse<RefreshResponse> = await response.json();
+      const { accessToken, refreshToken: newRefreshToken } = result.data.tokens;
+
+      // Guardar los nuevos tokens
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('refreshToken', newRefreshToken);
+
+      return accessToken;
+    } catch {
+      // MARCAR que la sesión ha expirado para detener TODAS las peticiones futuras
+      sessionExpired = true;
+
+      // Limpiar tokens
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+
+      // Redirigir a login SOLO si NO estamos ya en login
+      if (!globalThis.window?.location.pathname.includes('/login')) {
+        globalThis.window.location.href = '/login';
+      }
+
+      throw new Error('REFRESH_TOKEN_EXPIRED');
+    } finally {
+      isRefreshing = false;
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
+}
+
+/**
+ * Maneja errores 401 intentando renovar el token.
+ */
+async function handle401Error<T>(
+  endpoint: string,
+  options: RequestOptions | undefined
+): Promise<T> {
+  // NO intentar refresh si ya estamos en login o si la sesión ya expiró
+  if (
+    options?._retry ||
+    endpoint === '/auth/refresh' ||
+    globalThis.window?.location.pathname.includes('/login') ||
+    sessionExpired
+  ) {
+    throw {
+      message: 'Sesión expirada. Por favor, inicia sesión nuevamente.',
+      status: 401,
+      code: 'SESSION_EXPIRED',
+    } as ApiError;
+  }
+
+  try {
+    // Intentar renovar el token
+    await refreshAccessToken();
+
+    // Reintentar la petición original con el nuevo token
+    return request<T>(endpoint, { ...options, _retry: true });
+  } catch {
+    // Si falla el refresh, lanzar error terminal para evitar bucle
+    // refreshAccessToken() ya limpia tokens y redirige a login (si no estamos allí)
+    throw {
+      message: 'Sesión expirada. Por favor, inicia sesión nuevamente.',
+      status: 401,
+      code: 'SESSION_EXPIRED',
+    } as ApiError;
+  }
+}
+
+/**
  * Realiza una petición fetch configurada.
  */
 async function request<T>(endpoint: string, options?: RequestOptions): Promise<T> {
+  // Si la sesión ya expiró, no hacer ninguna petición
+  if (sessionExpired) {
+    throw {
+      message: 'Sesión expirada. Por favor, inicia sesión nuevamente.',
+      status: 401,
+      code: 'SESSION_EXPIRED',
+    } as ApiError;
+  }
+
   const url = `${API_BASE_URL}${endpoint}`;
 
   // Obtener token y añadirlo al header si existe
@@ -70,6 +173,11 @@ async function request<T>(endpoint: string, options?: RequestOptions): Promise<T
         error.code = errorData.code;
       } catch {
         // Si no se puede parsear el error, usar el mensaje por defecto
+      }
+
+      // Si es 401, intentar renovar el token
+      if (error.status === 401) {
+        return handle401Error<T>(endpoint, options);
       }
 
       throw error;

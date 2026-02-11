@@ -33,7 +33,7 @@ const localStorageMock = (() => {
   };
 })();
 
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(globalThis.window, 'localStorage', {
   value: localStorageMock,
 });
 
@@ -63,8 +63,12 @@ describe('useAuth hooks', () => {
       const mockUser = {
         id: '1',
         email: 'test@example.com',
-        name: 'Test User',
-        role: 'user',
+        firstName: 'Test',
+        lastName: 'User',
+        phone: null,
+        certificationLevel: null,
+        clubAffiliation: null,
+        bio: null,
       };
 
       vi.mocked(authApi.getProfile).mockResolvedValue(mockUser);
@@ -106,10 +110,17 @@ describe('useAuth hooks', () => {
         user: {
           id: '1',
           email: 'test@example.com',
-          name: 'Test User',
-          role: 'user',
+          firstName: 'Test',
+          lastName: 'User',
+          phone: null,
+          certificationLevel: null,
+          clubAffiliation: null,
+          bio: null,
         },
-        token: 'mock-token',
+        tokens: {
+          accessToken: 'mock-access-token',
+          refreshToken: 'mock-refresh-token',
+        },
       };
 
       vi.mocked(authApi.login).mockResolvedValue(mockResponse);
@@ -123,7 +134,8 @@ describe('useAuth hooks', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(authApi.login).toHaveBeenCalledWith(mockCredentials);
-      expect(localStorageMock.getItem('token')).toBe('mock-token');
+      expect(localStorageMock.getItem('token')).toBe('mock-access-token');
+      expect(localStorageMock.getItem('refreshToken')).toBe('mock-refresh-token');
       expect(queryClient.getQueryData(authKeys.profile())).toEqual(mockResponse.user);
     });
 
@@ -152,17 +164,25 @@ describe('useAuth hooks', () => {
       const mockData = {
         email: 'new@example.com',
         password: 'password123',
-        name: 'New User',
+        firstName: 'New',
+        lastName: 'User',
       };
 
       const mockResponse = {
         user: {
           id: '2',
           email: 'new@example.com',
-          name: 'New User',
-          role: 'user',
+          firstName: 'New',
+          lastName: 'User',
+          phone: null,
+          certificationLevel: null,
+          clubAffiliation: null,
+          bio: null,
         },
-        token: 'new-token',
+        tokens: {
+          accessToken: 'new-access-token',
+          refreshToken: 'new-refresh-token',
+        },
       };
 
       vi.mocked(authApi.register).mockResolvedValue(mockResponse);
@@ -176,7 +196,8 @@ describe('useAuth hooks', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(authApi.register).toHaveBeenCalledWith(mockData);
-      expect(localStorageMock.getItem('token')).toBe('new-token');
+      expect(localStorageMock.getItem('token')).toBe('new-access-token');
+      expect(localStorageMock.getItem('refreshToken')).toBe('new-refresh-token');
       expect(queryClient.getQueryData(authKeys.profile())).toEqual(mockResponse.user);
     });
 
@@ -191,7 +212,8 @@ describe('useAuth hooks', () => {
       result.current.mutate({
         email: 'existing@example.com',
         password: 'password123',
-        name: 'User',
+        firstName: 'Existing',
+        lastName: 'User',
       });
 
       await waitFor(() => expect(result.current.isError).toBe(true));
@@ -206,8 +228,12 @@ describe('useAuth hooks', () => {
       queryClient.setQueryData(authKeys.profile(), {
         id: '1',
         email: 'test@example.com',
-        name: 'Test',
-        role: 'user',
+        firstName: 'Test',
+        lastName: 'User',
+        phone: null,
+        certificationLevel: null,
+        clubAffiliation: null,
+        bio: null,
       });
 
       vi.mocked(authApi.logout).mockResolvedValue();
@@ -222,6 +248,7 @@ describe('useAuth hooks', () => {
 
       expect(authApi.logout).toHaveBeenCalledTimes(1);
       expect(localStorageMock.getItem('token')).toBeNull();
+      expect(localStorageMock.getItem('refreshToken')).toBeNull();
       expect(queryClient.getQueryData(authKeys.profile())).toBeUndefined();
     });
 

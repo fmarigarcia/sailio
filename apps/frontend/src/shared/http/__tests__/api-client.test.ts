@@ -15,7 +15,7 @@ describe('apiClient', () => {
       vi.mocked(fetch).mockResolvedValue({
         ok: true,
         status: 200,
-        json: async () => mockData,
+        json: async () => ({ status: 'success', data: mockData }),
       } as Response);
 
       const result = await apiClient.get('/test');
@@ -55,7 +55,7 @@ describe('apiClient', () => {
       vi.mocked(fetch).mockResolvedValue({
         ok: true,
         status: 201,
-        json: async () => mockData,
+        json: async () => ({ status: 'success', data: mockData }),
       } as Response);
 
       const result = await apiClient.post('/items', postData);
@@ -97,7 +97,7 @@ describe('apiClient', () => {
       vi.mocked(fetch).mockResolvedValue({
         ok: true,
         status: 200,
-        json: async () => mockData,
+        json: async () => ({ status: 'success', data: mockData }),
       } as Response);
 
       const result = await apiClient.put('/items/1', putData);
@@ -121,7 +121,7 @@ describe('apiClient', () => {
       vi.mocked(fetch).mockResolvedValue({
         ok: true,
         status: 200,
-        json: async () => mockData,
+        json: async () => ({ status: 'success', data: mockData }),
       } as Response);
 
       const result = await apiClient.patch('/items/1', patchData);

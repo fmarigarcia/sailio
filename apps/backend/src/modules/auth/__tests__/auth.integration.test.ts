@@ -35,7 +35,7 @@ describe('Auth Routes Integration', () => {
       });
 
       expect(response.status).toBe(201);
-      expect(response.body.success).toBe(true);
+      expect(response.body.status).toBe('success');
       expect(response.body.data.user.email).toBe('newuser@test.com');
       expect(response.body.data.tokens.accessToken).toBeDefined();
       expect(response.body.data.tokens.refreshToken).toBeDefined();
@@ -67,7 +67,7 @@ describe('Auth Routes Integration', () => {
         lastName: 'Password',
       });
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(422);
     });
 
     it('debe fallar con email inválido', async () => {
@@ -78,7 +78,7 @@ describe('Auth Routes Integration', () => {
         lastName: 'Email',
       });
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(422);
     });
   });
 
@@ -99,7 +99,7 @@ describe('Auth Routes Integration', () => {
       });
 
       expect(response.status).toBe(200);
-      expect(response.body.success).toBe(true);
+      expect(response.body.status).toBe('success');
       expect(response.body.data.user.email).toBe('login@test.com');
       expect(response.body.data.tokens.accessToken).toBeDefined();
     });
@@ -139,7 +139,7 @@ describe('Auth Routes Integration', () => {
       });
 
       expect(response.status).toBe(200);
-      expect(response.body.success).toBe(true);
+      expect(response.body.status).toBe('success');
       expect(response.body.data.tokens.accessToken).toBeDefined();
       expect(response.body.data.tokens.refreshToken).toBeDefined();
     });
@@ -169,7 +169,7 @@ describe('Auth Routes Integration', () => {
       });
 
       expect(response.status).toBe(200);
-      expect(response.body.success).toBe(true);
+      expect(response.body.status).toBe('success');
     });
 
     it('debe permitir logout múltiples veces', async () => {

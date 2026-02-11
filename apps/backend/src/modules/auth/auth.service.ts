@@ -124,13 +124,25 @@ export class AuthService {
       throw new InvalidTokenError('Token type inválido');
     }
 
-    const tokenHash = await bcrypt.hash(input.refreshToken, SALT_ROUNDS);
-    const storedToken = await prisma.refreshToken.findUnique({
-      where: { tokenHash },
+    // Buscar TODOS los tokens del usuario (incluyendo revocados) para detectar reuso
+    const userTokens = await prisma.refreshToken.findMany({
+      where: {
+        userId: payload.userId,
+      },
     });
 
+    // Comparar el token entrante con cada hash almacenado
+    let storedToken = null;
+    for (const token of userTokens) {
+      const matches = await bcrypt.compare(input.refreshToken, token.tokenHash);
+      if (matches) {
+        storedToken = token;
+        break;
+      }
+    }
+
     if (!storedToken) {
-      // Token no existe o fue revocado
+      // Token no existe en la base de datos
       // Posible ataque: revocar toda la familia de tokens
       if (payload.familyId) {
         await this.revokeTokenFamily(payload.familyId, 'Sospecha de reutilización de token');
@@ -139,7 +151,8 @@ export class AuthService {
     }
 
     if (storedToken.isRevoked) {
-      // Token ya fue revocado, revocar toda la familia
+      // Token ya fue revocado, posible ataque de reuso
+      // Revocar toda la familia de tokens por seguridad
       await this.revokeTokenFamily(storedToken.familyId, 'Intento de uso de token revocado');
       throw new TokenRevokedError();
     }
@@ -181,16 +194,27 @@ export class AuthService {
    */
   async logout(input: LogoutInput): Promise<void> {
     try {
-      const tokenHash = await bcrypt.hash(input.refreshToken, SALT_ROUNDS);
-      const storedToken = await prisma.refreshToken.findUnique({
-        where: { tokenHash },
+      // Verificar el token primero para obtener el userId
+      const payload = jwt.verify(input.refreshToken, JWT_SECRET) as TokenPayload;
+
+      // Buscar todos los tokens del usuario
+      const userTokens = await prisma.refreshToken.findMany({
+        where: {
+          userId: payload.userId,
+          isRevoked: false,
+        },
       });
 
-      if (storedToken) {
-        await prisma.refreshToken.update({
-          where: { id: storedToken.id },
-          data: { isRevoked: true, revokedAt: new Date(), revokedReason: 'Logout del usuario' },
-        });
+      // Comparar el token entrante con cada hash almacenado
+      for (const token of userTokens) {
+        const matches = await bcrypt.compare(input.refreshToken, token.tokenHash);
+        if (matches) {
+          await prisma.refreshToken.update({
+            where: { id: token.id },
+            data: { isRevoked: true, revokedAt: new Date(), revokedReason: 'Logout del usuario' },
+          });
+          break;
+        }
       }
     } catch {
       // Si el token no es válido, igualmente consideramos el logout exitoso
