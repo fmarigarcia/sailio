@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ElementType } from 'react';
 import clsx from 'clsx';
 import './stack.css';
 
@@ -8,7 +8,7 @@ export interface StackProps {
   align?: 'start' | 'center' | 'end' | 'stretch';
   justify?: 'start' | 'center' | 'end' | 'space-between' | 'space-around';
   wrap?: boolean;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   children: ReactNode;
 }
 

@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ElementType } from 'react';
 import clsx from 'clsx';
 import './container.css';
 
 export interface ContainerProps {
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full' | 'fluid';
   padding?: boolean;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   children: ReactNode;
 }
 

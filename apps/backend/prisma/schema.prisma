@@ -7,51 +7,50 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // Entrenadores de vela que usan la aplicación
 model User {
-  id                   String         @id @default(uuid())
-  email                String         @unique
-  passwordHash         String         @map("password_hash")
-  firstName            String         @map("first_name")
-  lastName             String         @map("last_name")
-  phone                String?
-  certificationLevel   String?        @map("certification_level")
-  clubAffiliation      String?        @map("club_affiliation")
-  bio                  String?
-  profileImageUrl      String?        @map("profile_image_url")
-  isActive             Boolean        @default(true) @map("is_active")
-  emailVerified        Boolean        @default(false) @map("email_verified")
-  createdAt            DateTime       @default(now()) @map("created_at")
-  updatedAt            DateTime       @updatedAt @map("updated_at")
-  
+  id                 String   @id @default(uuid())
+  email              String   @unique
+  passwordHash       String   @map("password_hash")
+  firstName          String   @map("first_name")
+  lastName           String   @map("last_name")
+  phone              String?
+  certificationLevel String?  @map("certification_level")
+  clubAffiliation    String?  @map("club_affiliation")
+  bio                String?
+  profileImageUrl    String?  @map("profile_image_url")
+  isActive           Boolean  @default(true) @map("is_active")
+  emailVerified      Boolean  @default(false) @map("email_verified")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
   // Relaciones
-  athletes             Athlete[]
-  sessions             Session[]
-  refreshTokens        RefreshToken[]
+  athletes      Athlete[]
+  sessions      Session[]
+  refreshTokens RefreshToken[]
 
   @@map("users")
 }
 
 // Gestión de tokens JWT en producción
 model RefreshToken {
-  id           String    @id @default(uuid())
-  userId       String    @map("user_id")
-  tokenHash    String    @unique @map("token_hash")
-  familyId     String    @map("family_id")
-  deviceInfo   String?   @map("device_info")
-  ipAddress    String?   @map("ip_address")
-  userAgent    String?   @map("user_agent")
-  expiresAt    DateTime  @map("expires_at")
-  isRevoked    Boolean   @default(false) @map("is_revoked")
-  revokedAt    DateTime? @map("revoked_at")
-  revokedReason String?  @map("revoked_reason")
-  createdAt    DateTime  @default(now()) @map("created_at")
-  
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  tokenHash     String    @unique @map("token_hash")
+  familyId      String    @map("family_id")
+  deviceInfo    String?   @map("device_info")
+  ipAddress     String?   @map("ip_address")
+  userAgent     String?   @map("user_agent")
+  expiresAt     DateTime  @map("expires_at")
+  isRevoked     Boolean   @default(false) @map("is_revoked")
+  revokedAt     DateTime? @map("revoked_at")
+  revokedReason String?   @map("revoked_reason")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
   // Relaciones
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([familyId])
@@ -61,30 +60,30 @@ model RefreshToken {
 
 // Atletas/navegantes gestionados por entrenadores
 model Athlete {
-  id                      String                 @id @default(uuid())
-  coachId                 String                 @map("coach_id")
-  userId                  String?                @unique @map("user_id") // Para futuro
-  firstName               String                 @map("first_name")
-  lastName                String                 @map("last_name")
-  dateOfBirth             DateTime?              @map("date_of_birth")
-  email                   String?
-  phone                   String?
-  emergencyContactName    String?                @map("emergency_contact_name")
-  emergencyContactPhone   String?                @map("emergency_contact_phone")
-  sailingExperienceYears  Int?                   @map("sailing_experience_years")
-  skillLevel              String?                @map("skill_level")
-  boatTypes               String[]               @map("boat_types")
-  certifications          String[]
-  medicalNotes            String?                @map("medical_notes")
-  profileImageUrl         String?                @map("profile_image_url")
-  notes                   String?
-  isActive                Boolean                @default(true) @map("is_active")
-  createdAt               DateTime               @default(now()) @map("created_at")
-  updatedAt               DateTime               @updatedAt @map("updated_at")
-  
+  id                     String    @id @default(uuid())
+  coachId                String    @map("coach_id")
+  userId                 String?   @unique @map("user_id") // Para futuro
+  firstName              String    @map("first_name")
+  lastName               String    @map("last_name")
+  dateOfBirth            DateTime? @map("date_of_birth")
+  email                  String?
+  phone                  String?
+  emergencyContactName   String?   @map("emergency_contact_name")
+  emergencyContactPhone  String?   @map("emergency_contact_phone")
+  sailingExperienceYears Int?      @map("sailing_experience_years")
+  skillLevel             String?   @map("skill_level")
+  boatTypes              String[]  @map("boat_types")
+  certifications         String[]
+  medicalNotes           String?   @map("medical_notes")
+  profileImageUrl        String?   @map("profile_image_url")
+  notes                  String?
+  isActive               Boolean   @default(true) @map("is_active")
+  createdAt              DateTime  @default(now()) @map("created_at")
+  updatedAt              DateTime  @updatedAt @map("updated_at")
+
   // Relaciones
-  coach                   User                   @relation(fields: [coachId], references: [id], onDelete: Cascade)
-  trainingSessionData     TrainingSessionData[]
+  coach               User                  @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  trainingSessionData TrainingSessionData[]
 
   @@index([coachId])
   @@map("athletes")
@@ -92,26 +91,26 @@ model Athlete {
 
 // Tabla base para sesiones de entrenamiento
 model Session {
-  id                String              @id @default(uuid())
-  coachId           String              @map("coach_id")
-  sessionType       String              @map("session_type") // training, racing, evaluation
-  title             String
-  description       String?
-  sessionDate       DateTime            @map("session_date")
-  startTime         DateTime?           @map("start_time")
-  endTime           DateTime?           @map("end_time")
-  durationMinutes   Int?                @map("duration_minutes")
-  locationName      String?             @map("location_name")
-  latitude          Float?
-  longitude         Float?
-  waterBody         String?             @map("water_body")
-  status            String              @default("planned") // planned, in_progress, completed, cancelled
-  createdAt         DateTime            @default(now()) @map("created_at")
-  updatedAt         DateTime            @updatedAt @map("updated_at")
-  
+  id              String    @id @default(uuid())
+  coachId         String    @map("coach_id")
+  sessionType     String    @map("session_type") // training, racing, evaluation
+  title           String
+  description     String?
+  sessionDate     DateTime  @map("session_date")
+  startTime       DateTime? @map("start_time")
+  endTime         DateTime? @map("end_time")
+  durationMinutes Int?      @map("duration_minutes")
+  locationName    String?   @map("location_name")
+  latitude        Float?
+  longitude       Float?
+  waterBody       String?   @map("water_body")
+  status          String    @default("planned") // planned, in_progress, completed, cancelled
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
   // Relaciones
-  coach             User                @relation(fields: [coachId], references: [id], onDelete: Cascade)
-  weatherCondition  WeatherCondition?
+  coach               User                  @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  weatherCondition    WeatherCondition?
   trainingSessionData TrainingSessionData[]
 
   @@index([coachId])
@@ -122,54 +121,54 @@ model Session {
 
 // Condiciones climáticas (relación 1:1 con Session)
 model WeatherCondition {
-  id                    String   @id @default(uuid())
-  sessionId             String   @unique @map("session_id")
-  temperatureCelsius    Float?   @map("temperature_celsius")
-  windSpeedKnots        Float?   @map("wind_speed_knots")
-  windDirectionDegrees  Int?     @map("wind_direction_degrees")
-  windGustsKnots        Float?   @map("wind_gusts_knots")
-  waveHeightMeters      Float?   @map("wave_height_meters")
-  visibilityKm          Float?   @map("visibility_km")
-  weatherDescription    String?  @map("weather_description")
-  seaState              String?  @map("sea_state")
-  tideState             String?  @map("tide_state")
-  dataSource            String   @default("manual") @map("data_source") // manual, api
-  recordedAt            DateTime @default(now()) @map("recorded_at")
-  createdAt             DateTime @default(now()) @map("created_at")
-  updatedAt             DateTime @updatedAt @map("updated_at")
-  
+  id                   String   @id @default(uuid())
+  sessionId            String   @unique @map("session_id")
+  temperatureCelsius   Float?   @map("temperature_celsius")
+  windSpeedKnots       Float?   @map("wind_speed_knots")
+  windDirectionDegrees Int?     @map("wind_direction_degrees")
+  windGustsKnots       Float?   @map("wind_gusts_knots")
+  waveHeightMeters     Float?   @map("wave_height_meters")
+  visibilityKm         Float?   @map("visibility_km")
+  weatherDescription   String?  @map("weather_description")
+  seaState             String?  @map("sea_state")
+  tideState            String?  @map("tide_state")
+  dataSource           String   @default("manual") @map("data_source") // manual, api
+  recordedAt           DateTime @default(now()) @map("recorded_at")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
   // Relaciones
-  session               Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
   @@map("weather_conditions")
 }
 
 // Datos específicos de cada atleta en una sesión
 model TrainingSessionData {
-  id                    String    @id @default(uuid())
-  sessionId             String    @map("session_id")
-  athleteId             String    @map("athlete_id")
-  skillFocus            String[]  @map("skill_focus")
-  performanceRating     Int?      @map("performance_rating") // 1-10
-  techniqueNotes        String?   @map("technique_notes")
-  improvementAreas      String[]  @map("improvement_areas")
-  strengthsObserved     String[]  @map("strengths_observed")
-  boatUsed              String?   @map("boat_used")
-  sailConfiguration     String?   @map("sail_configuration")
-  distanceSailedNm      Float?    @map("distance_sailed_nm")
-  sessionGoals          String[]  @map("session_goals")
-  goalsAchieved         String[]  @map("goals_achieved")
-  nextSessionFocus      String[]  @map("next_session_focus")
-  overallSatisfaction   Int?      @map("overall_satisfaction") // 1-10
-  coachNotes            String?   @map("coach_notes")
-  athleteFeedback       String?   @map("athlete_feedback")
-  athleteSelfRating     Int?      @map("athlete_self_rating") // 1-10
-  createdAt             DateTime  @default(now()) @map("created_at")
-  updatedAt             DateTime  @updatedAt @map("updated_at")
-  
+  id                  String   @id @default(uuid())
+  sessionId           String   @map("session_id")
+  athleteId           String   @map("athlete_id")
+  skillFocus          String[] @map("skill_focus")
+  performanceRating   Int?     @map("performance_rating") // 1-10
+  techniqueNotes      String?  @map("technique_notes")
+  improvementAreas    String[] @map("improvement_areas")
+  strengthsObserved   String[] @map("strengths_observed")
+  boatUsed            String?  @map("boat_used")
+  sailConfiguration   String?  @map("sail_configuration")
+  distanceSailedNm    Float?   @map("distance_sailed_nm")
+  sessionGoals        String[] @map("session_goals")
+  goalsAchieved       String[] @map("goals_achieved")
+  nextSessionFocus    String[] @map("next_session_focus")
+  overallSatisfaction Int?     @map("overall_satisfaction") // 1-10
+  coachNotes          String?  @map("coach_notes")
+  athleteFeedback     String?  @map("athlete_feedback")
+  athleteSelfRating   Int?     @map("athlete_self_rating") // 1-10
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
   // Relaciones
-  session               Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  athlete               Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
 
   @@unique([sessionId, athleteId])
   @@index([sessionId])
