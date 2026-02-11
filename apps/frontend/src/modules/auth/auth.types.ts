@@ -5,8 +5,12 @@
 export interface User {
   id: string;
   email: string;
-  name: string;
-  role: string;
+  firstName: string;
+  lastName: string;
+  phone: string | null;
+  certificationLevel: string | null;
+  clubAffiliation: string | null;
+  bio: string | null;
 }
 
 export interface LoginCredentials {
@@ -17,10 +21,19 @@ export interface LoginCredentials {
 export interface RegisterData {
   email: string;
   password: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  certificationLevel?: string;
+  clubAffiliation?: string;
+}
+
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface AuthResponse {
   user: User;
-  token: string;
+  tokens: AuthTokens;
 }

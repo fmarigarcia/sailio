@@ -2,6 +2,8 @@ import type { Request, Response, NextFunction } from 'express';
 import { authService } from './auth.service';
 import { registerSchema, loginSchema, refreshTokenSchema, logoutSchema } from './auth.schemas';
 import { successResponse } from '../../shared/http';
+import type { AuthRequest } from '../../shared/middleware';
+import { UnauthorizedError } from '../../shared/errors';
 
 export class AuthController {
   /**
@@ -75,6 +77,26 @@ export class AuthController {
       await authService.logout(validatedData);
 
       res.status(200).json(successResponse({ message: 'Sesión cerrada exitosamente' }));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * GET /auth/profile
+   */
+  async getProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const authReq = req as AuthRequest;
+      const userId = authReq.user?.userId;
+
+      if (!userId) {
+        throw new UnauthorizedError();
+      }
+
+      const user = await authService.getProfile(userId);
+
+      res.status(200).json(successResponse({ user }));
     } catch (error) {
       next(error);
     }

@@ -33,8 +33,9 @@ export function useLogin() {
   return useMutation({
     mutationFn: (credentials: LoginCredentials) => authApi.login(credentials),
     onSuccess: (data) => {
-      // Guardar token (ajustar según tu estrategia de auth)
-      localStorage.setItem('token', data.token);
+      // Guardar tokens (accessToken y refreshToken)
+      localStorage.setItem('token', data.tokens.accessToken);
+      localStorage.setItem('refreshToken', data.tokens.refreshToken);
 
       // Invalidar y actualizar cache del perfil
       queryClient.setQueryData(authKeys.profile(), data.user);
@@ -51,8 +52,9 @@ export function useRegister() {
   return useMutation({
     mutationFn: (data: RegisterData) => authApi.register(data),
     onSuccess: (data) => {
-      // Guardar token
-      localStorage.setItem('token', data.token);
+      // Guardar tokens (accessToken y refreshToken)
+      localStorage.setItem('token', data.tokens.accessToken);
+      localStorage.setItem('refreshToken', data.tokens.refreshToken);
 
       // Actualizar cache del perfil
       queryClient.setQueryData(authKeys.profile(), data.user);
@@ -69,8 +71,9 @@ export function useLogout() {
   return useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {
-      // Limpiar token
+      // Limpiar tokens
       localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
 
       // Limpiar todo el cache de auth
       queryClient.removeQueries({ queryKey: authKeys.all });

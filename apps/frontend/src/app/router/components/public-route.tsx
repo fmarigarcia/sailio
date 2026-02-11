@@ -10,6 +10,7 @@ import './loading-screen.css';
  */
 const PublicRoute = () => {
   const { data: user, isLoading } = useProfile();
+  console.log('🚀 ~ PublicRoute ~ user:', user);
 
   if (isLoading) {
     return (

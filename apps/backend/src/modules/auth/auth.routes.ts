@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { authController } from './auth.controller';
+import { authenticate } from '../../shared/middleware';
 
 const router: Router = Router();
 
@@ -37,6 +38,15 @@ router.post('/refresh', (req, res, next) => {
  */
 router.post('/logout', (req, res, next) => {
   void authController.logout(req, res, next);
+});
+
+/**
+ * @route   GET /auth/profile
+ * @desc    Obtiene el perfil del usuario autenticado
+ * @access  Private (requiere token)
+ */
+router.get('/profile', authenticate, (req, res, next) => {
+  void authController.getProfile(req, res, next);
 });
 
 export default router;

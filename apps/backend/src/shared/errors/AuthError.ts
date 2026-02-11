@@ -41,3 +41,9 @@ export class TokenRevokedError extends AppError {
     super(message, 401);
   }
 }
+
+export class UserNotFoundError extends AppError {
+  constructor(message = 'Usuario no encontrado') {
+    super(message, 404);
+  }
+}

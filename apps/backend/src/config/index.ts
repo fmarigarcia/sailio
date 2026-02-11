@@ -14,7 +14,7 @@ export const config = {
   isTest: process.env.NODE_ENV === 'test',
 
   // Server
-  port: parseInt(process.env.PORT || '3000', 10),
+  port: parseInt(process.env.PORT || '4000', 10),
   host: process.env.HOST || 'localhost',
 
   // Database

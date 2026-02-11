@@ -10,6 +10,7 @@ import {
   InvalidTokenError,
   TokenExpiredError,
   TokenRevokedError,
+  UserNotFoundError,
 } from '../../shared/errors';
 import type {
   RegisterInput,
@@ -19,6 +20,7 @@ import type {
   AuthResponse,
   AuthTokens,
   TokenPayload,
+  UserResponse,
 } from './auth.types';
 import { toUserResponse } from './auth.types';
 
@@ -284,6 +286,25 @@ export class AuthService {
       }
       throw new InvalidTokenError();
     }
+  }
+
+  /**
+   * Obtiene el perfil de un usuario por su ID
+   */
+  async getProfile(userId: string): Promise<UserResponse> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    if (!user.isActive) {
+      throw new UserInactiveError();
+    }
+
+    return toUserResponse(user);
   }
 }
 
