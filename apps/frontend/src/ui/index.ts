@@ -62,3 +62,6 @@ export type { SpinnerProps } from './Spinner';
 
 export { EmptyState } from './EmptyState';
 export type { EmptyStateProps, EmptyStateAction, EmptyStateSize } from './EmptyState';
+
+export { Stepper } from './Stepper';
+export type { StepperProps } from './Stepper';

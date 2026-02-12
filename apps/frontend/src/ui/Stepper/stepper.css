@@ -1,0 +1,106 @@
+.stepper-wrapper {
+  --stepper-circle-size: 2.5rem;
+  --stepper-label-min-height: 2.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+  width: 100%;
+}
+
+.stepper__content {
+  width: 100%;
+}
+
+.stepper__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.stepper__number {
+  width: var(--stepper-circle-size);
+  height: var(--stepper-circle-size);
+  border-radius: var(--radius-full);
+  background: var(--color-gray-200);
+  color: var(--color-gray-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  transition: all 0.3s ease;
+}
+
+.stepper__step--active .stepper__number {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.stepper__step--completed .stepper__number {
+  background: var(--color-success);
+  color: var(--color-white);
+}
+
+.stepper__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  font-weight: var(--font-weight-medium);
+  min-height: var(--stepper-label-min-height);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.stepper__step--active .stepper__label {
+  color: var(--color-primary);
+}
+
+.stepper__step--completed .stepper__label {
+  color: var(--color-success);
+}
+
+.stepper__line {
+  width: 3rem;
+  height: 2px;
+  background: var(--color-gray-300);
+  flex-shrink: 0;
+  margin-top: calc((var(--stepper-circle-size) - 2px) / 2);
+}
+
+@media (width <= 640px) {
+  .stepper-wrapper {
+    --stepper-circle-size: 2rem;
+    --stepper-label-min-height: 2.25rem;
+  }
+
+  .stepper {
+    gap: var(--space-1);
+  }
+
+  .stepper__label {
+    font-size: 0.625rem;
+  }
+
+  .stepper__line {
+    width: 2rem;
+  }
+
+  .stepper__number {
+    font-size: 0.75rem;
+  }
+}

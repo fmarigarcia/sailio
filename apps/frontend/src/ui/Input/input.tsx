@@ -42,6 +42,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       required = false,
       id,
       className = '',
+      'aria-label': ariaLabelProp,
       ...props
     },
     ref
@@ -66,7 +67,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <label htmlFor={inputId} className="input-label">
             {label}
             {required && (
-              <span className="input-label__required" aria-label="required">
+              <span className="input-label__required" aria-hidden="true">
                 *
               </span>
             )}
@@ -81,6 +82,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           required={required}
           aria-invalid={hasError}
           aria-describedby={helperId}
+          aria-label={ariaLabelProp ?? label}
           {...props}
         />
         {(helperText || error) && (

@@ -2,10 +2,10 @@ import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 
 const Login = lazy(() => import('./pages/login'));
+const Register = lazy(() => import('./pages/register'));
 
 /**
  * Rutas del módulo de autenticación.
- * Solo incluye login por ahora.
  */
 export const authRoutes: RouteObject[] = [
   {
@@ -13,11 +13,11 @@ export const authRoutes: RouteObject[] = [
     path: 'login',
     element: <Login />,
   },
+  {
+    path: 'register',
+    element: <Register />,
+  },
   // Future routes:
-  // {
-  //   path: 'register',
-  //   element: <Register />,
-  // },
   // {
   //   path: 'forgot-password',
   //   element: <ForgotPassword />,

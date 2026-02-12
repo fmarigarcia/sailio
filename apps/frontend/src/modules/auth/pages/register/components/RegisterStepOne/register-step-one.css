@@ -1,0 +1,12 @@
+.register-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (width <= 640px) {
+  .register-form-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
