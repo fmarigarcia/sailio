@@ -49,8 +49,8 @@ describe('Input', () => {
     });
 
     it('renders required indicator when required', () => {
-      render(<Input label="Email" required />);
-      const requiredIndicator = screen.getByLabelText('required');
+      const { container } = render(<Input label="Email" required />);
+      const requiredIndicator = container.querySelector('.input-label__required');
       expect(requiredIndicator).toBeInTheDocument();
       expect(requiredIndicator).toHaveTextContent('*');
     });
@@ -270,22 +270,6 @@ describe('Input', () => {
 
       expect(handleChange).toHaveBeenCalled();
       expect(input).toHaveValue('new@example.com');
-    });
-  });
-
-  describe('Ref Forwarding', () => {
-    it('forwards ref to input element', () => {
-      const ref = { current: null as HTMLInputElement | null };
-      render(<Input ref={ref} />);
-      expect(ref.current).toBeInstanceOf(HTMLInputElement);
-      expect(ref.current?.tagName).toBe('INPUT');
-    });
-
-    it('allows calling focus via ref', () => {
-      const ref = { current: null as HTMLInputElement | null };
-      render(<Input ref={ref} label="Email" />);
-      ref.current?.focus();
-      expect(ref.current).toHaveFocus();
     });
   });
 

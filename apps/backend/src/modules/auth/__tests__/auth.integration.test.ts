@@ -5,6 +5,11 @@ import authRoutes from '../auth.routes';
 import { errorHandler } from '../../../shared/middleware';
 import { prisma } from '../../../shared/db';
 
+const AUTH_TEST_EMAIL_PREFIX = `auth-integration-`;
+
+const createTestEmail = (label: string): string =>
+  `${label}-${AUTH_TEST_EMAIL_PREFIX}${Date.now()}@test.com`;
+
 describe('Auth Routes Integration', () => {
   let app: Express;
 
@@ -20,15 +25,32 @@ describe('Auth Routes Integration', () => {
   });
 
   beforeEach(async () => {
-    // Limpiar base de datos de test
-    await prisma.refreshToken.deleteMany();
-    await prisma.user.deleteMany();
+    // Limpiar solo datos creados por este archivo de tests
+    await prisma.refreshToken.deleteMany({
+      where: {
+        user: {
+          email: {
+            contains: AUTH_TEST_EMAIL_PREFIX,
+          },
+        },
+      },
+    });
+
+    await prisma.user.deleteMany({
+      where: {
+        email: {
+          contains: AUTH_TEST_EMAIL_PREFIX,
+        },
+      },
+    });
   });
 
   describe('POST /auth/register', () => {
     it('debe registrar un nuevo usuario', async () => {
+      const email = createTestEmail('newuser');
+
       const response = await request(app).post('/auth/register').send({
-        email: 'newuser@test.com',
+        email,
         password: 'Password123',
         firstName: 'New',
         lastName: 'User',
@@ -36,21 +58,23 @@ describe('Auth Routes Integration', () => {
 
       expect(response.status).toBe(201);
       expect(response.body.status).toBe('success');
-      expect(response.body.data.user.email).toBe('newuser@test.com');
+      expect(response.body.data.user.email).toBe(email);
       expect(response.body.data.tokens.accessToken).toBeDefined();
       expect(response.body.data.tokens.refreshToken).toBeDefined();
     });
 
     it('debe fallar con email duplicado', async () => {
+      const email = createTestEmail('duplicate');
+
       await request(app).post('/auth/register').send({
-        email: 'duplicate@test.com',
+        email,
         password: 'Password123',
         firstName: 'First',
         lastName: 'User',
       });
 
       const response = await request(app).post('/auth/register').send({
-        email: 'duplicate@test.com',
+        email,
         password: 'Password123',
         firstName: 'Second',
         lastName: 'User',
@@ -83,9 +107,11 @@ describe('Auth Routes Integration', () => {
   });
 
   describe('POST /auth/login', () => {
+    const loginEmail = createTestEmail('login');
+
     beforeEach(async () => {
       await request(app).post('/auth/register').send({
-        email: 'login@test.com',
+        email: loginEmail,
         password: 'Password123',
         firstName: 'Login',
         lastName: 'Test',
@@ -94,13 +120,13 @@ describe('Auth Routes Integration', () => {
 
     it('debe autenticar usuario con credenciales válidas', async () => {
       const response = await request(app).post('/auth/login').send({
-        email: 'login@test.com',
+        email: loginEmail,
         password: 'Password123',
       });
 
       expect(response.status).toBe(200);
       expect(response.body.status).toBe('success');
-      expect(response.body.data.user.email).toBe('login@test.com');
+      expect(response.body.data.user.email).toBe(loginEmail);
       expect(response.body.data.tokens.accessToken).toBeDefined();
     });
 
@@ -115,7 +141,7 @@ describe('Auth Routes Integration', () => {
 
     it('debe fallar con contraseña incorrecta', async () => {
       const response = await request(app).post('/auth/login').send({
-        email: 'login@test.com',
+        email: loginEmail,
         password: 'WrongPassword123',
       });
 
@@ -125,8 +151,10 @@ describe('Auth Routes Integration', () => {
 
   describe('POST /auth/refresh', () => {
     it('debe renovar tokens con refresh token válido', async () => {
+      const email = createTestEmail('refresh');
+
       const registerResponse = await request(app).post('/auth/register').send({
-        email: 'refresh@test.com',
+        email,
         password: 'Password123',
         firstName: 'Refresh',
         lastName: 'Test',
@@ -155,8 +183,10 @@ describe('Auth Routes Integration', () => {
 
   describe('POST /auth/logout', () => {
     it('debe cerrar sesión exitosamente', async () => {
+      const email = createTestEmail('logout');
+
       const registerResponse = await request(app).post('/auth/register').send({
-        email: 'logout@test.com',
+        email,
         password: 'Password123',
         firstName: 'Logout',
         lastName: 'Test',
@@ -173,8 +203,10 @@ describe('Auth Routes Integration', () => {
     });
 
     it('debe permitir logout múltiples veces', async () => {
+      const email = createTestEmail('multilogout');
+
       const registerResponse = await request(app).post('/auth/register').send({
-        email: 'multilogout@test.com',
+        email,
         password: 'Password123',
         firstName: 'Multi',
         lastName: 'Logout',
@@ -191,8 +223,10 @@ describe('Auth Routes Integration', () => {
 
   describe('Token Rotation', () => {
     it('debe revocar token viejo después de refresh', async () => {
+      const email = createTestEmail('rotation');
+
       const registerResponse = await request(app).post('/auth/register').send({
-        email: 'rotation@test.com',
+        email,
         password: 'Password123',
         firstName: 'Rotation',
         lastName: 'Test',

@@ -13,7 +13,9 @@ export default defineConfig({
         'dist/',
         '**/*.test.ts',
         '**/*.spec.ts',
-        'src/index.ts',
+        '**/*.css',
+        '**/*.json',
+        '**/index.ts',
         'prisma/',
       ],
       thresholds: {

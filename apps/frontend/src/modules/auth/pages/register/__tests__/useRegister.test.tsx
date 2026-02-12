@@ -54,7 +54,6 @@ const fillStep1 = (actions: RegisterActions) => {
   actions.handleInputChange(createChangeEvent('email', 'john@example.com'));
   actions.handleInputChange(createChangeEvent('password', 'Password123'));
   actions.handleInputChange(createChangeEvent('confirmPassword', 'Password123'));
-  actions.handleNext();
 };
 
 describe('useRegister', () => {
@@ -137,6 +136,9 @@ describe('useRegister', () => {
         result.current.actions.handleInputChange(
           createChangeEvent('confirmPassword', 'Password123')
         );
+      });
+
+      act(() => {
         result.current.actions.handleNext();
       });
 
@@ -152,6 +154,9 @@ describe('useRegister', () => {
         result.current.actions.handleInputChange(createChangeEvent('email', 'john@example.com'));
         result.current.actions.handleInputChange(createChangeEvent('password', 'weak'));
         result.current.actions.handleInputChange(createChangeEvent('confirmPassword', 'weak'));
+      });
+
+      act(() => {
         result.current.actions.handleNext();
       });
 
@@ -169,6 +174,9 @@ describe('useRegister', () => {
         result.current.actions.handleInputChange(
           createChangeEvent('confirmPassword', 'Different123')
         );
+      });
+
+      act(() => {
         result.current.actions.handleNext();
       });
 
@@ -182,8 +190,12 @@ describe('useRegister', () => {
         fillStep1(result.current.actions);
       });
 
+      act(() => {
+        result.current.actions.handleNext();
+      });
+
       expect(result.current.state.currentStep).toBe(2);
-      expect(Object.keys(result.current.state.errors)).toHaveLength(0);
+      expect(result.current.state.errors).toEqual({ general: undefined });
     });
   });
 
@@ -193,7 +205,17 @@ describe('useRegister', () => {
 
       act(() => {
         fillStep1(result.current.actions);
+      });
+
+      act(() => {
+        result.current.actions.handleNext();
+      });
+
+      act(() => {
         result.current.actions.handleInputChange(createChangeEvent('phoneNumber', 'abc'));
+      });
+
+      act(() => {
         result.current.actions.handleNext();
       });
 
@@ -206,6 +228,13 @@ describe('useRegister', () => {
 
       act(() => {
         fillStep1(result.current.actions);
+      });
+
+      act(() => {
+        result.current.actions.handleNext();
+      });
+
+      act(() => {
         result.current.actions.handleNext();
       });
 
@@ -220,6 +249,10 @@ describe('useRegister', () => {
 
       act(() => {
         fillStep1(result.current.actions);
+      });
+
+      act(() => {
+        result.current.actions.handleNext();
       });
 
       expect(result.current.state.currentStep).toBe(2);
@@ -254,6 +287,13 @@ describe('useRegister', () => {
 
       act(() => {
         fillStep1(result.current.actions);
+      });
+
+      act(() => {
+        result.current.actions.handleNext();
+      });
+
+      act(() => {
         result.current.actions.handleInputChange(
           createChangeEvent('certificationLevel', 'intermediate')
         );
@@ -286,6 +326,9 @@ describe('useRegister', () => {
 
       act(() => {
         fillStep1(result.current.actions);
+      });
+
+      act(() => {
         result.current.actions.handleNext();
       });
 
