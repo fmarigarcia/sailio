@@ -40,10 +40,10 @@ export interface RegisterState {
 
 export interface RegisterActions {
   handleFieldChange: (name: keyof RegisterFormData, value: string) => void;
-  handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleInputChange: (e: ChangeEvent<unknown>) => void;
   handleNext: () => void;
   handleBack: () => void;
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  handleSubmit: (e: FormEvent<unknown>) => Promise<void>;
   handleBackToLogin: () => void;
 }
 
@@ -83,8 +83,8 @@ export function useRegister(): UseRegisterResult {
     }
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleInputChange = (e: ChangeEvent<unknown>) => {
+    const { name, value } = e.target as unknown as { name: string; value: string };
     handleFieldChange(name as keyof RegisterFormData, value);
   };
 
@@ -177,7 +177,7 @@ export function useRegister(): UseRegisterResult {
     }
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<unknown>) => {
     e.preventDefault();
 
     // Final validation
@@ -199,7 +199,7 @@ export function useRegister(): UseRegisterResult {
 
       // Navigate to dashboard after successful registration
       navigate('/');
-    } catch (error) {
+    } catch {
       setErrors({
         general: t('errors.registrationFailed'),
       });

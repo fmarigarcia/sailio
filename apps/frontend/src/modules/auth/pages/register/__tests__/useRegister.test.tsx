@@ -1,10 +1,11 @@
 import { renderHook, act } from '@testing-library/react';
+import type { ChangeEvent, FormEvent, ReactNode } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { useRegister } from '../useRegister';
 import * as useAuthModule from '../../../hooks/useAuth';
+import type { RegisterActions, RegisterFormData } from '../useRegister';
 
-// Mock dependencies
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
@@ -31,11 +32,30 @@ const mockUseRegisterMutation = {
   reset: vi.fn(),
 };
 
-vi.spyOn(useAuthModule, 'useRegister').mockReturnValue(mockUseRegisterMutation as any);
+vi.spyOn(useAuthModule, 'useRegister').mockReturnValue(
+  mockUseRegisterMutation as unknown as ReturnType<typeof useAuthModule.useRegister>
+);
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
+const wrapper = ({ children }: { children: ReactNode }) => (
   <BrowserRouter>{children}</BrowserRouter>
 );
+
+const createChangeEvent = (name: keyof RegisterFormData, value: string): ChangeEvent<unknown> => {
+  return { target: { name, value } } as unknown as ChangeEvent<unknown>;
+};
+
+const createSubmitEvent = (): FormEvent<unknown> => {
+  return { preventDefault: vi.fn() } as unknown as FormEvent<unknown>;
+};
+
+const fillStep1 = (actions: RegisterActions) => {
+  actions.handleInputChange(createChangeEvent('firstName', 'John'));
+  actions.handleInputChange(createChangeEvent('lastName', 'Doe'));
+  actions.handleInputChange(createChangeEvent('email', 'john@example.com'));
+  actions.handleInputChange(createChangeEvent('password', 'Password123'));
+  actions.handleInputChange(createChangeEvent('confirmPassword', 'Password123'));
+  actions.handleNext();
+};
 
 describe('useRegister', () => {
   beforeEach(() => {
@@ -67,9 +87,7 @@ describe('useRegister', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
+        result.current.actions.handleInputChange(createChangeEvent('firstName', 'John'));
       });
 
       expect(result.current.state.formData.firstName).toBe('John');
@@ -78,18 +96,14 @@ describe('useRegister', () => {
     it('should clear error when input changes', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
-      // Trigger validation error
       act(() => {
         result.current.actions.handleNext();
       });
 
       expect(result.current.state.errors.firstName).toBeDefined();
 
-      // Clear error by typing
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
+        result.current.actions.handleInputChange(createChangeEvent('firstName', 'John'));
       });
 
       expect(result.current.state.errors.firstName).toBeUndefined();
@@ -116,24 +130,13 @@ describe('useRegister', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'invalid-email' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'Password123' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'Password123' },
-        } as any);
-      });
-
-      act(() => {
+        result.current.actions.handleInputChange(createChangeEvent('firstName', 'John'));
+        result.current.actions.handleInputChange(createChangeEvent('lastName', 'Doe'));
+        result.current.actions.handleInputChange(createChangeEvent('email', 'invalid-email'));
+        result.current.actions.handleInputChange(createChangeEvent('password', 'Password123'));
+        result.current.actions.handleInputChange(
+          createChangeEvent('confirmPassword', 'Password123')
+        );
         result.current.actions.handleNext();
       });
 
@@ -144,24 +147,11 @@ describe('useRegister', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'john@example.com' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'weak' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'weak' },
-        } as any);
-      });
-
-      act(() => {
+        result.current.actions.handleInputChange(createChangeEvent('firstName', 'John'));
+        result.current.actions.handleInputChange(createChangeEvent('lastName', 'Doe'));
+        result.current.actions.handleInputChange(createChangeEvent('email', 'john@example.com'));
+        result.current.actions.handleInputChange(createChangeEvent('password', 'weak'));
+        result.current.actions.handleInputChange(createChangeEvent('confirmPassword', 'weak'));
         result.current.actions.handleNext();
       });
 
@@ -172,24 +162,13 @@ describe('useRegister', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'john@example.com' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'Password123' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'Different123' },
-        } as any);
-      });
-
-      act(() => {
+        result.current.actions.handleInputChange(createChangeEvent('firstName', 'John'));
+        result.current.actions.handleInputChange(createChangeEvent('lastName', 'Doe'));
+        result.current.actions.handleInputChange(createChangeEvent('email', 'john@example.com'));
+        result.current.actions.handleInputChange(createChangeEvent('password', 'Password123'));
+        result.current.actions.handleInputChange(
+          createChangeEvent('confirmPassword', 'Different123')
+        );
         result.current.actions.handleNext();
       });
 
@@ -200,29 +179,11 @@ describe('useRegister', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'john@example.com' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'Password123' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'Password123' },
-        } as any);
-      });
-
-      act(() => {
-        result.current.actions.handleNext();
+        fillStep1(result.current.actions);
       });
 
       expect(result.current.state.currentStep).toBe(2);
-      expect(Object.keys(result.current.state.errors).length).toBe(0);
+      expect(Object.keys(result.current.state.errors)).toHaveLength(0);
     });
   });
 
@@ -230,34 +191,9 @@ describe('useRegister', () => {
     it('should validate phone number format when provided', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
-      // Fill step 1
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'john@example.com' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'Password123' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'Password123' },
-        } as any);
-        result.current.actions.handleNext();
-      });
-
-      // Invalid phone
-      act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'phoneNumber', value: 'abc' },
-        } as any);
-      });
-
-      act(() => {
+        fillStep1(result.current.actions);
+        result.current.actions.handleInputChange(createChangeEvent('phoneNumber', 'abc'));
         result.current.actions.handleNext();
       });
 
@@ -268,27 +204,8 @@ describe('useRegister', () => {
     it('should allow empty phone number', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
-      // Fill step 1
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'john@example.com' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'Password123' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'Password123' },
-        } as any);
-        result.current.actions.handleNext();
-      });
-
-      act(() => {
+        fillStep1(result.current.actions);
         result.current.actions.handleNext();
       });
 
@@ -301,24 +218,8 @@ describe('useRegister', () => {
     it('should navigate back to previous step', () => {
       const { result } = renderHook(() => useRegister(), { wrapper });
 
-      // Move to step 2
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'john@example.com' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'Password123' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'Password123' },
-        } as any);
-        result.current.actions.handleNext();
+        fillStep1(result.current.actions);
       });
 
       expect(result.current.state.currentStep).toBe(2);
@@ -328,7 +229,7 @@ describe('useRegister', () => {
       });
 
       expect(result.current.state.currentStep).toBe(1);
-      expect(Object.keys(result.current.state.errors).length).toBe(0);
+      expect(Object.keys(result.current.state.errors)).toHaveLength(0);
     });
 
     it('should not go back from step 1', () => {
@@ -351,43 +252,20 @@ describe('useRegister', () => {
 
       const { result } = renderHook(() => useRegister(), { wrapper });
 
-      // Fill all steps
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'john@example.com' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'Password123' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'Password123' },
-        } as any);
-        result.current.actions.handleNext();
-      });
-
-      act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'certificationLevel', value: 'intermediate' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'clubAffiliation', value: 'Yacht Club' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'phoneNumber', value: '+1234567890' },
-        } as any);
+        fillStep1(result.current.actions);
+        result.current.actions.handleInputChange(
+          createChangeEvent('certificationLevel', 'intermediate')
+        );
+        result.current.actions.handleInputChange(
+          createChangeEvent('clubAffiliation', 'Yacht Club')
+        );
+        result.current.actions.handleInputChange(createChangeEvent('phoneNumber', '+1234567890'));
         result.current.actions.handleNext();
       });
 
       await act(async () => {
-        await result.current.actions.handleSubmit({
-          preventDefault: vi.fn(),
-        } as any);
+        await result.current.actions.handleSubmit(createSubmitEvent());
       });
 
       expect(mockMutateAsync).toHaveBeenCalledWith({
@@ -406,31 +284,13 @@ describe('useRegister', () => {
 
       const { result } = renderHook(() => useRegister(), { wrapper });
 
-      // Fill all steps
       act(() => {
-        result.current.actions.handleInputChange({
-          target: { name: 'firstName', value: 'John' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'lastName', value: 'Doe' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'email', value: 'john@example.com' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'password', value: 'Password123' },
-        } as any);
-        result.current.actions.handleInputChange({
-          target: { name: 'confirmPassword', value: 'Password123' },
-        } as any);
-        result.current.actions.handleNext();
+        fillStep1(result.current.actions);
         result.current.actions.handleNext();
       });
 
       await act(async () => {
-        await result.current.actions.handleSubmit({
-          preventDefault: vi.fn(),
-        } as any);
+        await result.current.actions.handleSubmit(createSubmitEvent());
       });
 
       expect(result.current.state.errors.general).toBe('errors.registrationFailed');

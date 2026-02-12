@@ -1,8 +1,8 @@
-import { InputHTMLAttributes, forwardRef, useId } from 'react';
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, useId } from 'react';
 import clsx from 'clsx';
 import './input.css';
 
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'size'> {
   label?: string;
   error?: string;
   helperText?: string;
@@ -29,7 +29,45 @@ const buildInputClasses = (
   );
 };
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+const renderLabel = (label: string | undefined, required: boolean, inputId: string) => {
+  if (!label) {
+    return null;
+  }
+
+  return (
+    <label htmlFor={inputId} className="input-label">
+      {label}
+      {required && (
+        <span className="input-label__required" aria-hidden="true">
+          *
+        </span>
+      )}
+    </label>
+  );
+};
+
+const renderHelper = (
+  helperText: string | undefined,
+  error: string | undefined,
+  helperId: string | undefined,
+  hasError: boolean
+) => {
+  if (!helperText && !error) {
+    return null;
+  }
+
+  return (
+    <span
+      id={helperId}
+      className={clsx('input-helper', hasError && 'input-helper--error')}
+      role={hasError ? 'alert' : undefined}
+    >
+      {error || helperText}
+    </span>
+  );
+};
+
+const Input = forwardRef<ElementRef<'input'>, InputProps>(
   (
     {
       label,
@@ -63,16 +101,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className={clsx('input-wrapper', fullWidth && 'input-wrapper--full-width')}>
-        {label && (
-          <label htmlFor={inputId} className="input-label">
-            {label}
-            {required && (
-              <span className="input-label__required" aria-hidden="true">
-                *
-              </span>
-            )}
-          </label>
-        )}
+        {renderLabel(label, required, inputId)}
         <input
           ref={ref}
           id={inputId}
@@ -85,15 +114,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           aria-label={ariaLabelProp ?? label}
           {...props}
         />
-        {(helperText || error) && (
-          <span
-            id={helperId}
-            className={clsx('input-helper', hasError && 'input-helper--error')}
-            role={hasError ? 'alert' : undefined}
-          >
-            {error || helperText}
-          </span>
-        )}
+        {renderHelper(helperText, error, helperId, hasError)}
       </div>
     );
   }

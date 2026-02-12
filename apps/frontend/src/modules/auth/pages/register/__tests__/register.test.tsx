@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import type { ReactElement } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import Register from '../register';
@@ -84,9 +85,11 @@ const mockUseRegisterMutation = {
   reset: vi.fn(),
 };
 
-vi.spyOn(useAuthModule, 'useRegister').mockReturnValue(mockUseRegisterMutation as any);
+vi.spyOn(useAuthModule, 'useRegister').mockReturnValue(
+  mockUseRegisterMutation as unknown as ReturnType<typeof useAuthModule.useRegister>
+);
 
-const renderWithRouter = (component: React.ReactElement) => {
+const renderWithRouter = (component: ReactElement) => {
   return render(<BrowserRouter>{component}</BrowserRouter>);
 };
 
