@@ -65,12 +65,42 @@
 
   /* Focus/Hover Colors */
   --color-focus: #0066cc;
-  --color-hover: rgba(0, 102, 204, 0.08);
+  --color-hover: rgb(0, 102, 204, 0.08);
+}
+
+:root[data-theme='dark'] {
+  --color-background: #0d1117;
+  --color-background-secondary: #161b22;
+  --color-background-tertiary: #21262d;
+
+  --color-text-primary: #c9d1d9;
+  --color-text-secondary: #8b949e;
+  --color-text-disabled: #484f58;
+  --color-text-inverse: #0d1117;
+
+  --color-border: #30363d;
+  --color-border-light: #21262d;
+  --color-border-dark: #484f58;
+}
+
+:root[data-theme='light'] {
+  --color-background: #ffffff;
+  --color-background-secondary: #f8f9fa;
+  --color-background-tertiary: #e9ecef;
+
+  --color-text-primary: #212529;
+  --color-text-secondary: #6c757d;
+  --color-text-disabled: #adb5bd;
+  --color-text-inverse: #ffffff;
+
+  --color-border: #dee2e6;
+  --color-border-light: #e9ecef;
+  --color-border-dark: #ced4da;
 }
 
 /* Dark mode support (opcional para el futuro) */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --color-background: #0d1117;
     --color-background-secondary: #161b22;
     --color-background-tertiary: #21262d;
