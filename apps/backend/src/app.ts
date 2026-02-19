@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import { config } from './config';
 import { errorHandler, notFoundHandler } from './shared/middleware';
 import authRoutes from './modules/auth/auth.routes';
+import dashboardRoutes from './modules/dashboard/dashboard.routes';
 
 /**
  * Crea y configura la aplicación Express
@@ -33,6 +34,7 @@ export const createApp = (): Application => {
 
   // API Routes
   app.use('/api/auth', authRoutes);
+  app.use('/api/dashboard', dashboardRoutes);
 
   app.use('/api', (_req, res) => {
     res.json({
