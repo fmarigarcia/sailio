@@ -53,6 +53,12 @@ describe('Button', () => {
       const button = screen.getByRole('button');
       expect(button).toHaveClass('btn--ghost');
     });
+
+    it('renders text variant', () => {
+      render(<Button variant="text">Text</Button>);
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('btn--text');
+    });
   });
 
   describe('sizes', () => {

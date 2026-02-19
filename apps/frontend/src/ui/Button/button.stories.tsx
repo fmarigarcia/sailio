@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './button';
 
@@ -12,7 +11,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'danger', 'ghost'],
+      options: ['primary', 'secondary', 'danger', 'ghost', 'text'],
       description: 'Visual variant of the button',
     },
     size: {
@@ -227,6 +226,14 @@ export const GhostDisabled: Story = {
     variant: 'ghost',
     disabled: true,
     children: 'Disabled Ghost',
+  },
+};
+
+// Text Variants
+export const Text: Story = {
+  args: {
+    variant: 'text',
+    children: 'Text Button',
   },
 };
 

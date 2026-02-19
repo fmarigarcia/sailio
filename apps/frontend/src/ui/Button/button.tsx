@@ -1,15 +1,12 @@
-import React, { ButtonHTMLAttributes, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import clsx from 'clsx';
 import { Spinner } from '../icons';
 import './button.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost' | 'text';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
-export interface ButtonProps extends Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'className' | 'style'
-> {
+export interface ButtonProps extends Omit<React.ComponentProps<'button'>, 'className' | 'style'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;

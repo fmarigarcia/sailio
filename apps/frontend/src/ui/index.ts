@@ -65,3 +65,9 @@ export type { EmptyStateProps, EmptyStateAction, EmptyStateSize } from './EmptyS
 
 export { Stepper } from './Stepper';
 export type { StepperProps } from './Stepper';
+
+export { Layout } from './Layout';
+export type { LayoutProps } from './Layout';
+
+export { Navbar } from './Navbar';
+export type { NavbarProps } from './Navbar';
