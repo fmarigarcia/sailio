@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, EmailInput, PasswordInput, TextInput } from '@/ui';
-import type { RegisterActions, RegisterState } from '../../useRegister';
-import { RegisterStepContent } from '../RegisterStepContent';
+import type { RegisterActions, RegisterState } from '../../use-register';
+import { RegisterStepContent } from '../register-step-content';
 import './register-step-one.css';
-import { RegisterStepActions } from '../RegisterStepActions';
+import { RegisterStepActions } from '../register-step-actions';
 
 interface RegisterStepOneProps {
   state: RegisterState;

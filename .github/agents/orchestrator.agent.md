@@ -28,6 +28,16 @@ Cuando recibo una solicitud, analizo:
 3. **Complejidad**: ¿Tarea simple o requiere prompt completo?
 4. **Fase**: ¿Creación, modificación, testing, revisión?
 
+## Convención de Naming (Global)
+
+- **Carpetas y archivos**: `kebab-case`
+- **Funciones y variables**: `camelCase`
+- **Componentes**: `PascalCase`
+- **Tipos e interfaces**: `PascalCase`
+- **Constantes reales**: `UPPER_SNAKE_CASE`
+- **Hooks custom**: prefijo obligatorio `use` en `camelCase`
+- **Tests**: `*.test.ts` / `*.test.tsx` con nombre base en `kebab-case`
+
 ## Delegación a Agentes Especializados
 
 ### 🔧 Backend Development → @backend-agent

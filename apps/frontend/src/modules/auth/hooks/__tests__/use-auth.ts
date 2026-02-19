@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useProfile, useLogin, useRegister, useLogout, authKeys } from '../useAuth';
+import { useProfile, useLogin, useRegister, useLogout, authKeys } from '../use-auth';
 import { authApi } from '../../auth.api';
 import React, { type ReactNode } from 'react';
 

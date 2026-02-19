@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, ErrorState, Layout, LoadingState } from '@/ui';
 import { DashboardSessionsSection } from '../../components';
 import { formatDashboardCurrentDate, formatDashboardSessionDate } from '../../helpers';
-import { useDashboard } from './useDashboard';
+import { useDashboard } from './use-dashboard';
 import './dashboard.css';
 
 interface DashboardKpiView {

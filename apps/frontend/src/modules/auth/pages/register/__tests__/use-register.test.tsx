@@ -2,9 +2,9 @@ import { renderHook, act } from '@testing-library/react';
 import type { ChangeEvent, FormEvent, ReactNode } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import { useRegister } from '../useRegister';
-import * as useAuthModule from '../../../hooks/useAuth';
-import type { RegisterActions, RegisterFormData } from '../useRegister';
+import { useRegister } from '../use-register';
+import * as useAuthModule from '../../../hooks/use-auth';
+import type { RegisterActions, RegisterFormData } from '../use-register';
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({

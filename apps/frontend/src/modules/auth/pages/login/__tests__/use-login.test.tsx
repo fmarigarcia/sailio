@@ -3,7 +3,7 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { QueryClient } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { useLogin } from '../useLogin';
+import { useLogin } from '../use-login';
 import { ReactNode } from 'react';
 
 const mockNavigate = vi.fn();
@@ -18,7 +18,7 @@ vi.mock('react-router-dom', async () => {
 
 const mockMutateAsync = vi.fn();
 
-vi.mock('../../hooks/useAuth', () => ({
+vi.mock('../../hooks/use-auth', () => ({
   useLogin: () => ({
     mutateAsync: mockMutateAsync,
     isPending: false,
@@ -73,7 +73,7 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleInputChange({
         target: { name: 'email', value: 'test@example.com', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
     });
 
     expect(result.current.state.formData.email).toBe('test@example.com');
@@ -87,7 +87,7 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleInputChange({
         target: { name: 'password', value: 'password123', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
     });
 
     expect(result.current.state.formData.password).toBe('password123');
@@ -101,7 +101,7 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleInputChange({
         target: { name: 'rememberMe', checked: true, type: 'checkbox' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
     });
 
     expect(result.current.state.formData.rememberMe).toBe(true);
@@ -116,7 +116,7 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>);
+      });
     });
 
     expect(result.current.state.errors.email).toBeDefined();
@@ -125,7 +125,7 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleInputChange({
         target: { name: 'email', value: 'test@example.com', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
     });
 
     expect(result.current.state.errors.email).toBeUndefined();
@@ -139,7 +139,7 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>);
+      });
     });
 
     expect(result.current.state.errors.email).toBe('Email is required');
@@ -155,13 +155,13 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleInputChange({
         target: { name: 'password', value: 'password123', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
     });
 
     act(() => {
       result.current.actions.handleSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>);
+      });
     });
 
     expect(result.current.state.errors.email).toBe('Email is required');
@@ -177,13 +177,13 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleInputChange({
         target: { name: 'email', value: 'test@example.com', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
     });
 
     act(() => {
       result.current.actions.handleSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>);
+      });
     });
 
     expect(result.current.state.errors.email).toBeUndefined();
@@ -205,7 +205,7 @@ describe('useLogin', () => {
     }));
 
     // Re-mock for this specific test
-    vi.doMock('../../hooks/useAuth', () => ({
+    vi.doMock('../../hooks/use-auth', () => ({
       useLogin: useLoginMock,
     }));
 
@@ -216,17 +216,17 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleInputChange({
         target: { name: 'email', value: 'test@example.com', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
 
       result.current.actions.handleInputChange({
         target: { name: 'password', value: 'password123', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
     });
 
     await act(async () => {
       await result.current.actions.handleSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>);
+      });
     });
 
     // Just verify navigation happened for now
@@ -243,17 +243,17 @@ describe('useLogin', () => {
     act(() => {
       result.current.actions.handleInputChange({
         target: { name: 'email', value: 'test@example.com', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
 
       result.current.actions.handleInputChange({
         target: { name: 'password', value: 'wrongpassword', type: 'text' },
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
     });
 
     await act(async () => {
       await result.current.actions.handleSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>);
+      });
     });
 
     await waitFor(() => {

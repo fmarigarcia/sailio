@@ -1,1 +1,1 @@
-export { useProfile, useLogin, useRegister, useLogout, authKeys } from './useAuth';
+export { useProfile, useLogin, useRegister, useLogout, authKeys } from './use-auth';

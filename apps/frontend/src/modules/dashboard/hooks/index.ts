@@ -1,1 +1,1 @@
-export { useDashboardOverview, dashboardKeys } from './useDashboardOverview';
+export { useDashboardOverview, dashboardKeys } from './use-dashboard-overview';

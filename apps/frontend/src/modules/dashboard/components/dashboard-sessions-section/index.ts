@@ -1,4 +1,2 @@
-export { SessionSummaryItem } from './session-summary-item';
-export type { SessionSummaryItemProps } from './session-summary-item';
 export { DashboardSessionsSection } from './dashboard-sessions-section';
 export type { DashboardSessionsSectionProps } from './dashboard-sessions-section';

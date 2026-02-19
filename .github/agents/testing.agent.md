@@ -17,9 +17,20 @@ Experto en estrategias de testing para asegurar cobertura ≥80% en todo el proy
 - **Frontend**: Para contexto de módulos frontend, consulta `@frontend-agent`
 - **Review**: Tests son parte del checklist de `@pr-review-agent`
 
+## Convención de Naming (Global)
+
+- **Carpetas y archivos**: `kebab-case`
+- **Funciones y variables**: `camelCase`
+- **Componentes**: `PascalCase`
+- **Tipos e interfaces**: `PascalCase`
+- **Constantes reales**: `UPPER_SNAKE_CASE`
+- **Hooks custom**: prefijo obligatorio `use` en `camelCase`
+- **Tests**: `*.test.ts` / `*.test.tsx` con nombre base en `kebab-case`
+
 ## Cobertura Mínima Requerida
 
 **80%** en:
+
 - Statements (sentencias)
 - Branches (ramas)
 - Functions (funciones)
@@ -255,7 +266,7 @@ describe('Login', () => {
 
   it('calls login function with correct credentials', async () => {
     const mockLogin = vi.fn();
-    
+
     render(
       <AuthProvider value={{ login: mockLogin }}>
         <Login />
@@ -316,9 +327,7 @@ describe('useAuth', () => {
   });
 
   it('should handle login error', async () => {
-    vi.mocked(authApi.login).mockRejectedValue(
-      new Error('Invalid credentials')
-    );
+    vi.mocked(authApi.login).mockRejectedValue(new Error('Invalid credentials'));
 
     const { result } = renderHook(() => useAuth());
 
@@ -377,7 +386,7 @@ describe('Button', () => {
   it('renders with primary variant', () => {
     render(<Button variant="primary">Click me</Button>);
     const button = screen.getByRole('button');
-    
+
     expect(button).toHaveClass('btn-primary');
     expect(button).toHaveTextContent('Click me');
   });
@@ -385,22 +394,22 @@ describe('Button', () => {
   it('renders with secondary variant', () => {
     render(<Button variant="secondary">Click me</Button>);
     const button = screen.getByRole('button');
-    
+
     expect(button).toHaveClass('btn-secondary');
   });
 
   it('calls onClick handler when clicked', () => {
     const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     fireEvent.click(screen.getByRole('button'));
-    
+
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('is disabled when disabled prop is true', () => {
     render(<Button disabled>Click me</Button>);
-    
+
     expect(screen.getByRole('button')).toBeDisabled();
   });
 });
@@ -418,7 +427,7 @@ import { Welcome } from '../welcome';
 describe('Welcome with i18n', () => {
   it('renders in Spanish', () => {
     i18n.changeLanguage('es');
-    
+
     render(
       <I18nextProvider i18n={i18n}>
         <Welcome />
@@ -430,7 +439,7 @@ describe('Welcome with i18n', () => {
 
   it('renders in English', () => {
     i18n.changeLanguage('en');
-    
+
     render(
       <I18nextProvider i18n={i18n}>
         <Welcome />
@@ -445,6 +454,7 @@ describe('Welcome with i18n', () => {
 ## Estrategias para Alcanzar 80% de Cobertura
 
 ### 1. Testing Pyramid
+
 - **Base**: Tests unitarios (70% del total)
 - **Medio**: Tests de integración (20%)
 - **Cima**: Tests E2E (10%)
@@ -452,6 +462,7 @@ describe('Welcome with i18n', () => {
 ### 2. Qué Testear Prioritariamente
 
 #### Backend:
+
 - ✅ Lógica de negocio en services (crítico)
 - ✅ Validaciones de schemas
 - ✅ Manejo de errores
@@ -460,6 +471,7 @@ describe('Welcome with i18n', () => {
 - ❌ Configuración y setup (bajo valor)
 
 #### Frontend:
+
 - ✅ Hooks personalizados con lógica (crítico)
 - ✅ Componentes con interacciones complejas
 - ✅ Componentes UI del design system
@@ -478,6 +490,7 @@ pnpm --filter frontend test:coverage
 ```
 
 Revisar archivos de coverage:
+
 - `coverage/lcov-report/index.html` - reporte visual
 - Identificar archivos con baja cobertura
 - Priorizar archivos con lógica crítica
@@ -485,6 +498,7 @@ Revisar archivos de coverage:
 ### 4. Evitar Falsa Cobertura
 
 ❌ No hacer tests solo para subir porcentaje:
+
 ```typescript
 // BAD: Test inútil
 it('should exist', () => {
@@ -493,14 +507,15 @@ it('should exist', () => {
 ```
 
 ✅ Tests con valor real:
+
 ```typescript
 // GOOD: Test con caso de uso real
 it('should calculate discount correctly for premium users', () => {
   const user = { type: 'premium' };
   const price = 100;
-  
+
   const result = calculateDiscount(user, price);
-  
+
   expect(result).toBe(80); // 20% discount
 });
 ```
@@ -508,6 +523,7 @@ it('should calculate discount correctly for premium users', () => {
 ## Checklist de Testing
 
 ### Para Nuevo Módulo Backend:
+
 1. ✅ Tests unitarios de service con casos edge
 2. ✅ Tests de validación de schemas (casos válidos e inválidos)
 3. ✅ Tests de integración de al menos endpoints principales
@@ -517,6 +533,7 @@ it('should calculate discount correctly for premium users', () => {
 7. ✅ `pnpm test` pasa sin errores
 
 ### Para Nuevo Módulo Frontend:
+
 1. ✅ Tests de hooks personalizados
 2. ✅ Tests de componentes con casos principales
 3. ✅ Tests de interacciones (clicks, inputs, etc.)
@@ -526,6 +543,7 @@ it('should calculate discount correctly for premium users', () => {
 7. ✅ `pnpm test` pasa sin errores
 
 ### Para Componente UI:
+
 1. ✅ Tests de rendering con diferentes props
 2. ✅ Tests de variantes (primary, secondary, etc.)
 3. ✅ Tests de interacciones (onClick, onChange, etc.)
@@ -537,11 +555,13 @@ it('should calculate discount correctly for premium users', () => {
 ## Herramientas de Testing
 
 ### Backend:
+
 - **Jest**: Framework de testing
 - **Supertest**: Tests de integración HTTP
 - **jest-mock-extended**: Mocking avanzado de Prisma
 
 ### Frontend:
+
 - **Vitest**: Framework de testing (más rápido que Jest)
 - **React Testing Library**: Testing de componentes
 - **@testing-library/react-hooks**: Testing de hooks

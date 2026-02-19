@@ -1,7 +1,7 @@
-import { useState, useCallback, FormEvent, ChangeEvent } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useLogin as useLoginMutation } from '../../hooks/useAuth';
+import { useLogin as useLoginMutation } from '../../hooks/use-auth';
 
 interface LoginFormData {
   email: string;
@@ -13,6 +13,19 @@ interface LoginFormErrors {
   email?: string;
   password?: string;
   general?: string;
+}
+
+interface LoginInputChangeEvent {
+  target: {
+    name: string;
+    value?: string;
+    type: string;
+    checked?: boolean;
+  };
+}
+
+interface LoginFormSubmitEvent {
+  preventDefault: () => void;
 }
 
 export function useLogin() {
@@ -28,7 +41,7 @@ export function useLogin() {
 
   const [errors, setErrors] = useState<LoginFormErrors>({});
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: LoginInputChangeEvent) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -56,7 +69,7 @@ export function useLogin() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: LoginFormSubmitEvent) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -71,7 +84,7 @@ export function useLogin() {
 
       // Navigate to dashboard after successful login
       navigate('/');
-    } catch (error) {
+    } catch {
       setErrors({
         general: t('errors.invalidCredentials'),
       });

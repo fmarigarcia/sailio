@@ -11,6 +11,16 @@ Sailio es un SaaS para entrenadores y regatistas de vela que permite llevar cont
 - **Backend**: Node.js + Express + Prisma + PostgreSQL
 - **Principios**: SOLID aplicado en todo el proyecto
 
+## Convención de Naming
+
+- **Carpetas y archivos**: `kebab-case`
+- **Funciones y variables**: `camelCase`
+- **Componentes (React)**: `PascalCase`
+- **Tipos e interfaces**: `PascalCase`
+- **Constantes reales**: `UPPER_SNAKE_CASE`
+- **Hooks custom**: deben iniciar con `use` y mantener `camelCase` (ej: `useAuthSession`)
+- **Tests**: usar `*.test.ts` / `*.test.tsx` (mantener `kebab-case` en el nombre base)
+
 ## Reglas de Arquitectura de Componentes
 
 ### Ubicación de Componentes Frontend

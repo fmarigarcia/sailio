@@ -2,7 +2,7 @@ import React, { type ReactNode } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useDashboardOverview } from '../useDashboardOverview';
+import { useDashboardOverview } from '../use-dashboard-overview';
 import { dashboardApi } from '../../dashboard.api';
 
 vi.mock('../../dashboard.api', () => ({

@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/ui';
-import type { RegisterActions, RegisterState } from '../../useRegister';
-import { RegisterReviewItem, RegisterReviewSection } from '../RegisterReviewSection';
-import { RegisterStepActions } from '../RegisterStepActions';
-import { RegisterStepContent } from '../RegisterStepContent';
+import type { RegisterActions, RegisterState } from '../../use-register';
+import { RegisterReviewItem, RegisterReviewSection } from '../register-review-section';
+import { RegisterStepActions } from '../register-step-actions';
+import { RegisterStepContent } from '../register-step-content';
 import './register-step-three.css';
 
 interface RegisterStepThreeProps {

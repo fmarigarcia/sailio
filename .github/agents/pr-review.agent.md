@@ -22,6 +22,7 @@ Experto en revisión de Pull Requests asegurando cumplimiento de estándares del
 ### 1. Estructura y Organización
 
 #### Backend:
+
 - ✅ Módulos organizados por dominio, no por tipo técnico
 - ✅ Archivos en su lugar correcto según arquitectura:
   - `*.routes.ts` - Solo definición de rutas
@@ -35,6 +36,7 @@ Experto en revisión de Pull Requests asegurando cumplimiento de estándares del
 - ✅ Errores tipados y coherentes (no `throw new Error(...)`)
 
 #### Frontend:
+
 - ✅ Módulos organizados por dominio en `modules/`
 - ✅ Componentes UI en `ui/` sin lógica de negocio
 - ✅ Estructura de página correcta:
@@ -49,12 +51,14 @@ Experto en revisión de Pull Requests asegurando cumplimiento de estándares del
 ### 2. Commits
 
 #### Formato:
+
 - ✅ Mensajes one-liner (una sola línea)
 - ✅ Tamaño razonable (no commits con 500+ líneas)
 - ✅ Formato: `tipo: descripción breve`
 - ✅ Tipos válidos: feat, fix, refactor, test, docs, style, chore
 
 #### Ejemplos de Buenos Commits:
+
 ```
 ✅ feat: add login endpoint with JWT authentication
 ✅ fix: handle email not verified error in auth service
@@ -64,6 +68,7 @@ Experto en revisión de Pull Requests asegurando cumplimiento de estándares del
 ```
 
 #### Ejemplos de Malos Commits:
+
 ```
 ❌ WIP
 ❌ fix stuff
@@ -74,6 +79,7 @@ Experto en revisión de Pull Requests asegurando cumplimiento de estándares del
 ### 3. Linting y Code Quality
 
 #### Reglas Críticas (deben estar cumplidas):
+
 - ✅ `no-console` - Sin console.log (excepto dev)
 - ✅ `max-lines` - Máximo 300 líneas (excepto tests, estilos, Prisma)
 - ✅ `complexity` - Complejidad ciclomática ≤ 15
@@ -84,11 +90,13 @@ Experto en revisión de Pull Requests asegurando cumplimiento de estándares del
 - ✅ `no-inline-styles` - Sin estilos inline
 
 #### Pre-commit Hooks:
+
 - ✅ Husky está configurado y funcionando
 - ✅ Los hooks verifican linting automáticamente
 - ✅ No se bypasearon hooks con `--no-verify` sin justificación
 
 #### Verificación:
+
 ```bash
 # ESLint debe pasar sin errores
 pnpm lint
@@ -103,6 +111,7 @@ ls .husky/
 ### 4. Testing
 
 #### Cobertura:
+
 - ✅ Cobertura global ≥ 80%
 - ✅ Nuevos módulos con ≥ 80% cobertura
 - ✅ Tests unitarios para lógica de negocio
@@ -110,12 +119,14 @@ ls .husky/
 - ✅ Tests de componentes para UI
 
 #### Calidad de Tests:
+
 - ✅ Tests con casos edge, no solo happy path
 - ✅ Tests descriptivos con nombres claros
 - ✅ Mocks correctamente configurados
 - ✅ NO tests inútiles solo para subir cobertura
 
 #### Verificación:
+
 ```bash
 pnpm test:coverage
 ```
@@ -123,12 +134,14 @@ pnpm test:coverage
 ### 5. Internacionalización (I18N)
 
 **CRÍTICO para Frontend:**
+
 - ✅ NO hay strings hardcoded sin traducir
 - ✅ Todos los textos usan `t('clave.de.traduccion')`
 - ✅ Traducciones existen en `es/` y `en/`
 - ✅ Claves de traducción son descriptivas y organizadas
 
 #### Revisión:
+
 ```typescript
 // ❌ MAL
 <h1>Welcome to Sailio</h1>
@@ -150,29 +163,35 @@ pnpm test:coverage
 ### 7. Principios SOLID
 
 #### Single Responsibility:
+
 - ✅ Cada función/clase tiene una sola responsabilidad
 - ✅ Services no mezclan múltiples dominios
 - ✅ Controllers solo traducen HTTP
 
 #### Open/Closed:
+
 - ✅ Código extensible sin modificar existente
 - ✅ Uso de interfaces y abstracciones
 
 #### Liskov Substitution:
+
 - ✅ Subclases sustituibles por clases base
 - ✅ Contratos respetados
 
 #### Interface Segregation:
+
 - ✅ Interfaces específicas, no monolíticas
 - ✅ No forzar implementación de métodos innecesarios
 
 #### Dependency Inversion:
+
 - ✅ Dependencias de abstracciones, no implementaciones
 - ✅ Inyección de dependencias donde aplica
 
 ### 8. Seguridad
 
 #### Backend:
+
 - ✅ Validación de inputs con schemas (Zod)
 - ✅ Passwords hasheadas, nunca en plain text
 - ✅ Tokens JWT con expiración
@@ -181,6 +200,7 @@ pnpm test:coverage
 - ✅ Variables sensibles en `.env`
 
 #### Frontend:
+
 - ✅ No se exponen secrets en el código
 - ✅ Validación de inputs en formularios
 - ✅ Sanitización de HTML cuando se renderiza dinámicamente
@@ -188,12 +208,14 @@ pnpm test:coverage
 ### 9. Performance
 
 #### Backend:
+
 - ✅ Queries optimizadas (no N+1)
 - ✅ Índices en DB donde corresponde
 - ✅ Paginación en endpoints que devuelven listas
 - ✅ No se cargan datos innecesarios
 
 #### Frontend:
+
 - ✅ Lazy loading de rutas
 - ✅ Memoización donde aplica (`useMemo`, `useCallback`)
 - ✅ Componentes optimizados (no re-renders innecesarios)
@@ -209,16 +231,19 @@ pnpm test:coverage
 ### 11. Naming
 
 - ✅ Nombres descriptivos y en inglés
+- ✅ Carpetas y archivos en `kebab-case`
 - ✅ Variables: camelCase
 - ✅ Componentes: PascalCase
-- ✅ Archivos de componentes: PascalCase
-- ✅ Archivos de utilidades: camelCase
+- ✅ Tipos e interfaces: PascalCase
+- ✅ Hooks custom con prefijo `use` en camelCase
+- ✅ Archivos de test con `*.test.ts` / `*.test.tsx`
 - ✅ Constantes: UPPER_SNAKE_CASE
 - ✅ Nombres de negocio, no técnicos (UserProfile vs UserContainer)
 
 ### 12. CSS y Estilos
 
 #### Frontend:
+
 - ✅ Uso de tokens CSS (variables) para colores, spacing, fonts
 - ✅ NO valores hardcoded: `color: #0066cc` → `color: var(--color-primary)`
 - ✅ NO estilos inline (`style={{}}`)
@@ -241,6 +266,7 @@ pnpm test:coverage
 ### Cuando Pedir Cambios:
 
 #### Crítico (Bloquean merge):
+
 - 🔴 Linting errors
 - 🔴 Tests fallando
 - 🔴 Cobertura < 80%
@@ -253,6 +279,7 @@ pnpm test:coverage
 - 🔴 Commits no siguen formato
 
 #### Importante (Deben corregirse):
+
 - ⚠️ Falta de tests para código complejo
 - ⚠️ Nombres no descriptivos
 - ⚠️ Violación de SOLID
@@ -261,6 +288,7 @@ pnpm test:coverage
 - ⚠️ Estructura incorrecta de archivos
 
 #### Sugerencias (Nice to have):
+
 - 💡 Mejoras de performance
 - 💡 Refactorings opcionales
 - 💡 Alternativas de implementación
@@ -315,16 +343,21 @@ pnpm type-check
 ## Respuestas a Preguntas Comunes
 
 ### "¿Por qué no puedo usar console.log?"
+
 Solo en desarrollo local. En código que va a producción, usa un logger apropiado.
 
 ### "¿Por qué 300 líneas máximo?"
+
 Archivos grandes son difíciles de mantener y testear. Excepciones: tests, estilos, Prisma schema.
 
 ### "¿Por qué prohibir estilos inline?"
+
 Rompe la consistencia del design system y dificulta mantenimiento.
 
 ### "¿Por qué cobertura de 80%?"
+
 Balance entre calidad y productividad. Menos indica código sin probar, más es diminishing returns.
 
 ### "¿Por qué commits one-liner?"
+
 Facilita lectura de historia de git y hace commits más atómicos.

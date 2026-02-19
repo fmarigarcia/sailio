@@ -18,6 +18,16 @@ Experto en desarrollo frontend con Vite + React + TypeScript, siguiendo arquitec
 - **Testing**: Para tests del frontend, consulta `@testing-agent`
 - **Review**: Antes de PR, consulta `@pr-review-agent`
 
+## Convención de Naming (Global)
+
+- **Carpetas y archivos**: `kebab-case`
+- **Funciones y variables**: `camelCase`
+- **Componentes**: `PascalCase`
+- **Tipos e interfaces**: `PascalCase`
+- **Constantes reales**: `UPPER_SNAKE_CASE`
+- **Hooks custom**: prefijo obligatorio `use` en `camelCase`
+- **Tests**: `*.test.ts` / `*.test.tsx` con nombre base en `kebab-case`
+
 ## Estructura Frontend
 
 ```

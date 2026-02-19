@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, EmptyState } from '@/ui';
 import type { SessionSummary } from '../../dashboard.types';
-import { SessionSummaryItem } from '../sessionSummaryItem';
+import { SessionSummaryItem } from '../session-summary-item';
 
 interface DashboardSessionsSectionProps {
   title: string;

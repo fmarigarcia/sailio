@@ -4,7 +4,7 @@ import { Alert, Card, Stepper } from '@/ui';
 import { MenuIcon } from '@/ui/icons';
 import { LanguageSelector } from '../../components';
 import { RegisterStepOne, RegisterStepThree, RegisterStepTwo } from './components';
-import { useRegister } from './useRegister';
+import { useRegister } from './use-register';
 import './register.css';
 
 const Register: React.FC = () => {

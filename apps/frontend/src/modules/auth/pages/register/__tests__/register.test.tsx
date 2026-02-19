@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import Register from '../register';
-import * as useAuthModule from '../../../hooks/useAuth';
+import * as useAuthModule from '../../../hooks/use-auth';
 
 // Mock dependencies
 vi.mock('react-i18next', () => ({

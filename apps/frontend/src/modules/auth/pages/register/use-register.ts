@@ -1,7 +1,7 @@
 import { useState, useCallback, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useRegister as useRegisterMutation } from '../../hooks/useAuth';
+import { useRegister as useRegisterMutation } from '../../hooks/use-auth';
 
 export interface RegisterFormData {
   // Step 1: Personal Info

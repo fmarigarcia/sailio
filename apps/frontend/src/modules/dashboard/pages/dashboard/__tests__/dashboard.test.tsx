@@ -16,7 +16,7 @@ vi.mock('../useDashboard', () => ({
   useDashboard: vi.fn(),
 }));
 
-import { useDashboard } from '../useDashboard';
+import { useDashboard } from '../use-dashboard';
 
 const createDashboardHookResult = () => ({
   state: {

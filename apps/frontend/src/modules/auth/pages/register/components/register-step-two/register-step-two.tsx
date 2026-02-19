@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Select, TextInput } from '@/ui';
-import type { RegisterActions, RegisterState } from '../../useRegister';
-import { RegisterStepActions } from '../RegisterStepActions';
-import { RegisterStepContent } from '../RegisterStepContent';
+import type { RegisterActions, RegisterState } from '../../use-register';
+import { RegisterStepActions } from '../register-step-actions';
+import { RegisterStepContent } from '../register-step-content';
 
 interface RegisterStepTwoProps {
   state: RegisterState;

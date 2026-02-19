@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useDashboard } from '../useDashboard';
+import { useDashboard } from '../use-dashboard';
 
 vi.mock('@/modules/auth', () => ({
   useProfile: vi.fn(),

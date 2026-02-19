@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { EmailInput, PasswordInput, Button, Checkbox, Alert, Card } from '@/ui';
 import { MenuIcon } from '@/ui/icons';
 import { LanguageSelector } from '../../components';
-import { useLogin } from './useLogin';
+import { useLogin } from './use-login';
 import './login.css';
 
 const Login: React.FC = () => {

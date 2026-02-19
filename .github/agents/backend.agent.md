@@ -16,6 +16,16 @@ Experto en desarrollo backend con Node.js + Express + Prisma + PostgreSQL, sigui
 - **Testing**: Para tests del backend, consulta `@testing-agent`
 - **Review**: Antes de PR, consulta `@pr-review-agent`
 
+## Convención de Naming (Global)
+
+- **Carpetas y archivos**: `kebab-case`
+- **Funciones y variables**: `camelCase`
+- **Componentes**: `PascalCase`
+- **Tipos e interfaces**: `PascalCase`
+- **Constantes reales**: `UPPER_SNAKE_CASE`
+- **Hooks custom**: prefijo obligatorio `use` en `camelCase`
+- **Tests**: `*.test.ts` / `*.test.tsx` con nombre base en `kebab-case`
+
 ## Estructura de Módulos Backend
 
 ```
@@ -32,20 +42,24 @@ apps/backend/src/
 
 ## Responsabilidades por Archivo
 
-### *.routes.ts
+### \*.routes.ts
+
 - Define SOLO endpoints HTTP (método, path, middlewares, controller)
 - NO contiene lógica de negocio
 - Ejemplo:
+
 ```typescript
 router.post('/login', authController.login);
 ```
 
-### *.controller.ts
+### \*.controller.ts
+
 - Traduce HTTP → dominio
 - Valida entrada (directamente o delegando)
 - Maneja códigos de estado HTTP
 - NO contiene reglas de negocio complejas
 - Ejemplo:
+
 ```typescript
 export async function login(req: Request, res: Response) {
   const result = await authService.login(req.body);
@@ -53,23 +67,27 @@ export async function login(req: Request, res: Response) {
 }
 ```
 
-### *.service.ts
+### \*.service.ts
+
 - AQUÍ vive la lógica de negocio
 - Reglas del dominio y orquestación de procesos
 - NO depende de HTTP
 - Debe poder reutilizarse fuera de una API HTTP
 - Ejemplo:
+
 ```typescript
 if (!user.emailVerified) {
   throw new EmailNotVerifiedError();
 }
 ```
 
-### *.schemas.ts
+### \*.schemas.ts
+
 - Validación de inputs (Zod, Joi, Yup)
 - Contratos claros de la API
 - Primera capa de seguridad
 - Ejemplo:
+
 ```typescript
 export const loginSchema = z.object({
   email: z.string().email(),
@@ -77,17 +95,20 @@ export const loginSchema = z.object({
 });
 ```
 
-### *.types.ts
+### \*.types.ts
+
 - Tipos de dominio específicos del módulo
 - DTOs e interfaces del negocio
 
 ## Separación Commands vs Queries
 
 Sin CQRS completo, pero separar conceptualmente:
+
 - **Commands**: Modifican estado
 - **Queries**: Solo lectura
 
 Opcionalmente usar:
+
 ```
 {dominio}/
   {dominio}.service.ts
@@ -97,11 +118,13 @@ Opcionalmente usar:
 ## Gestión de Errores
 
 ### ❌ Evitar:
+
 ```typescript
 throw new Error('Unauthorized');
 ```
 
 ### ✅ Preferir:
+
 ```typescript
 export class UnauthorizedError extends AppError {
   status = 401;
@@ -134,20 +157,26 @@ src/shared/
 ## Entidades de Base de Datos
 
 ### User
+
 Entrenadores de vela que usan la aplicación.
+
 - id, email, passwordHash, firstName, lastName, phone
 - certificationLevel, clubAffiliation, bio, profileImageUrl
 - isActive, emailVerified
 - Relaciones: 1:N Athletes, Sessions, RefreshTokens
 
 ### RefreshToken
+
 Gestión de tokens JWT en producción.
+
 - id, userId, tokenHash, familyId
 - deviceInfo, ipAddress, userAgent
 - expiresAt, isRevoked, revokedAt, revokedReason
 
 ### Athlete
+
 Atletas/navegantes gestionados por entrenadores.
+
 - id, coachId, userId (opcional para futuro)
 - firstName, lastName, dateOfBirth, email, phone
 - emergencyContactName, emergencyContactPhone
@@ -155,14 +184,18 @@ Atletas/navegantes gestionados por entrenadores.
 - medicalNotes, profileImageUrl, notes, isActive
 
 ### Session
+
 Tabla base para sesiones de entrenamiento.
+
 - id, coachId, sessionType, title, description
 - sessionDate, startTime, endTime, durationMinutes
 - locationName, latitude, longitude, waterBody
 - status (planned/in_progress/completed/cancelled)
 
 ### WeatherCondition
+
 Condiciones climáticas (relación 1:1 con Session).
+
 - id, sessionId
 - temperatureCelsius, windSpeedKnots, windDirectionDegrees
 - windGustsKnots, waveHeightMeters, visibilityKm
@@ -170,7 +203,9 @@ Condiciones climáticas (relación 1:1 con Session).
 - dataSource (manual/api), recordedAt
 
 ### TrainingSessionData
+
 Datos específicos de cada atleta en una sesión.
+
 - id, sessionId, athleteId
 - skillFocus, performanceRating, techniqueNotes
 - improvementAreas, strengthsObserved
@@ -188,6 +223,7 @@ Datos específicos de cada atleta en una sesión.
 - Coverage de tests: ≥80%
 
 ### Pre-commit Hooks
+
 - Husky ejecuta automáticamente antes de cada commit:
   - ESLint en archivos staged
   - TypeScript type-check
