@@ -10,7 +10,6 @@ import './loading-screen.css';
  */
 const ProtectedRoute = () => {
   const { data: user, isLoading } = useProfile();
-  console.log('🚀 ~ ProtectedRoute ~ user:', user);
 
   if (isLoading) {
     return (

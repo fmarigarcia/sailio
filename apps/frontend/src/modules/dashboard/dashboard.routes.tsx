@@ -11,4 +11,8 @@ export const dashboardRoutes: RouteObject[] = [
     index: true,
     element: <Dashboard />,
   },
+  {
+    path: 'dashboard',
+    element: <Dashboard />,
+  },
 ];

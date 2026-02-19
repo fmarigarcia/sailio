@@ -24,8 +24,8 @@ export const authApi = {
   /**
    * Obtiene el perfil del usuario autenticado.
    */
-  getProfile: async (): Promise<User> => {
-    return apiClient.get<User>('/auth/profile');
+  getProfile: async (): Promise<{ user: User }> => {
+    return apiClient.get<{ user: User }>('/auth/profile');
   },
 
   /**

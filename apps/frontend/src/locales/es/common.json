@@ -25,6 +25,42 @@
     "selectOption": "Selecciona una opción",
     "noOptions": "No hay opciones disponibles"
   },
+  "layout": {
+    "navigation": "Navegación principal",
+    "openMenu": "Abrir menú de navegación",
+    "closeMenu": "Cerrar menú de navegación",
+    "themeToggle": "Cambiar modo oscuro",
+    "themeLight": "Modo claro",
+    "themeDark": "Modo oscuro",
+    "dashboard": "Dashboard",
+    "athletes": "Atletas",
+    "sessions": "Sesiones",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Dashboard",
+      "placeholder": "El módulo de dashboard se implementará aquí."
+    },
+    "athletes": {
+      "title": "Atletas",
+      "placeholder": "El módulo de atletas se implementará aquí."
+    },
+    "sessions": {
+      "title": "Sesiones",
+      "placeholder": "El módulo de sesiones se implementará aquí."
+    },
+    "profile": {
+      "title": "Perfil",
+      "placeholder": "El módulo de perfil se implementará aquí."
+    },
+    "settings": {
+      "title": "Configuración",
+      "placeholder": "El módulo de configuración se implementará aquí."
+    }
+  },
   "errors": {
     "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
     "network": "Error de conexión. Verifica tu conexión a internet.",

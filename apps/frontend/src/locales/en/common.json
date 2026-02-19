@@ -25,6 +25,42 @@
     "selectOption": "Select an option",
     "noOptions": "No options available"
   },
+  "layout": {
+    "navigation": "Main navigation",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "themeToggle": "Toggle dark mode",
+    "themeLight": "Light mode",
+    "themeDark": "Dark mode",
+    "dashboard": "Dashboard",
+    "athletes": "Athletes",
+    "sessions": "Sessions",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Dashboard",
+      "placeholder": "Dashboard module will be implemented here."
+    },
+    "athletes": {
+      "title": "Athletes",
+      "placeholder": "Athletes module will be implemented here."
+    },
+    "sessions": {
+      "title": "Sessions",
+      "placeholder": "Sessions module will be implemented here."
+    },
+    "profile": {
+      "title": "Profile",
+      "placeholder": "Profile module will be implemented here."
+    },
+    "settings": {
+      "title": "Settings",
+      "placeholder": "Settings module will be implemented here."
+    }
+  },
   "errors": {
     "generic": "An error occurred. Please try again.",
     "network": "Connection error. Check your internet connection.",

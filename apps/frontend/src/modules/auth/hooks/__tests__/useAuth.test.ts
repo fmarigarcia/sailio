@@ -71,7 +71,7 @@ describe('useAuth hooks', () => {
         bio: null,
       };
 
-      vi.mocked(authApi.getProfile).mockResolvedValue(mockUser);
+      vi.mocked(authApi.getProfile).mockResolvedValue({ user: mockUser });
 
       const { result } = renderHook(() => useProfile(), {
         wrapper: createWrapper(),

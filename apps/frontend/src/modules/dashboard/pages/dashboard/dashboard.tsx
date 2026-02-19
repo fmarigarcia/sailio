@@ -1,16 +1,21 @@
 import React from 'react';
-import './dashboard.css';
+import { useTranslation } from 'react-i18next';
+import { Layout } from '@/ui';
 
 /**
  * Dashboard principal de la aplicación.
  * Placeholder temporal - se implementará la funcionalidad completa más adelante.
  */
 const Dashboard: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
-    <div className="dashboard-placeholder">
-      <h1>Dashboard</h1>
-      <p>Dashboard will be implemented here.</p>
-    </div>
+    <Layout>
+      <section>
+        <h2>{t('pages.dashboard.title')}</h2>
+        <p>{t('pages.dashboard.placeholder')}</p>
+      </section>
+    </Layout>
   );
 };
 
