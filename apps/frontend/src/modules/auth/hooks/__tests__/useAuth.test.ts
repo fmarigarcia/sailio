@@ -225,6 +225,7 @@ describe('useAuth hooks', () => {
   describe('useLogout', () => {
     it('logs out successfully and clears token', async () => {
       localStorageMock.setItem('token', 'existing-token');
+      localStorageMock.setItem('refreshToken', 'existing-refresh-token');
       queryClient.setQueryData(authKeys.profile(), {
         id: '1',
         email: 'test@example.com',
@@ -247,6 +248,9 @@ describe('useAuth hooks', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(authApi.logout).toHaveBeenCalledTimes(1);
+      expect(authApi.logout).toHaveBeenCalledWith({
+        refreshToken: 'existing-refresh-token',
+      });
       expect(localStorageMock.getItem('token')).toBeNull();
       expect(localStorageMock.getItem('refreshToken')).toBeNull();
       expect(queryClient.getQueryData(authKeys.profile())).toBeUndefined();
@@ -254,6 +258,7 @@ describe('useAuth hooks', () => {
 
     it('clears data even if logout request fails', async () => {
       localStorageMock.setItem('token', 'existing-token');
+      localStorageMock.setItem('refreshToken', 'existing-refresh-token');
 
       vi.mocked(authApi.logout).mockRejectedValue({ message: 'Server error', status: 500 });
 
@@ -265,8 +270,25 @@ describe('useAuth hooks', () => {
 
       await waitFor(() => expect(result.current.isError).toBe(true));
 
-      // Incluso si falla, debería limpiar el token localmente
-      // (esto puede ajustarse según la lógica de negocio deseada)
+      expect(localStorageMock.getItem('token')).toBeNull();
+      expect(localStorageMock.getItem('refreshToken')).toBeNull();
+      expect(queryClient.getQueryData(authKeys.profile())).toBeUndefined();
+    });
+
+    it('does not call logout API if no refresh token is available', async () => {
+      localStorageMock.setItem('token', 'existing-token');
+
+      const { result } = renderHook(() => useLogout(), {
+        wrapper: createWrapper(),
+      });
+
+      result.current.mutate();
+
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+      expect(authApi.logout).not.toHaveBeenCalled();
+      expect(localStorageMock.getItem('token')).toBeNull();
+      expect(localStorageMock.getItem('refreshToken')).toBeNull();
     });
   });
 });

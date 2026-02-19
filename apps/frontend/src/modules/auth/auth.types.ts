@@ -37,3 +37,7 @@ export interface AuthResponse {
   user: User;
   tokens: AuthTokens;
 }
+
+export interface LogoutData {
+  refreshToken: string;
+}

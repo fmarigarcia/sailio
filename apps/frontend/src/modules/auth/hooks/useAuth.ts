@@ -69,8 +69,16 @@ export function useLogout() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: authApi.logout,
-    onSuccess: () => {
+    mutationFn: async () => {
+      const refreshToken = localStorage.getItem('refreshToken');
+
+      if (!refreshToken) {
+        return;
+      }
+
+      await authApi.logout({ refreshToken });
+    },
+    onSettled: () => {
       // Limpiar tokens
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');

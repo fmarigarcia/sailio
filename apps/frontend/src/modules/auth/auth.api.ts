@@ -1,5 +1,5 @@
 import { apiClient } from '@/shared';
-import type { User, LoginCredentials, RegisterData, AuthResponse } from './auth.types';
+import type { User, LoginCredentials, RegisterData, AuthResponse, LogoutData } from './auth.types';
 
 /**
  * API del módulo de autenticación.
@@ -31,7 +31,7 @@ export const authApi = {
   /**
    * Cierra sesión.
    */
-  logout: async (): Promise<void> => {
-    return apiClient.post<void>('/auth/logout');
+  logout: async (data: LogoutData): Promise<void> => {
+    return apiClient.post<void>('/auth/logout', data);
   },
 };
