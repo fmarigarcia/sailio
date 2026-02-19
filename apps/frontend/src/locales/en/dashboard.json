@@ -1,0 +1,46 @@
+{
+  "header": {
+    "welcomeBack": "Welcome back, {{name}}!",
+    "fallbackName": "Coach",
+    "today": "{{date}}"
+  },
+  "kpi": {
+    "totalAthletes": "Total athletes",
+    "sessionsThisMonth": "Sessions this month",
+    "upcomingSessions": "Upcoming sessions",
+    "averageRating": "Average rating",
+    "averageRatingValue": "{{value}}/10",
+    "notAvailable": "N/A"
+  },
+  "sections": {
+    "recent": {
+      "title": "Recent sessions",
+      "emptyTitle": "No recent sessions",
+      "emptyDescription": "There are no sessions to show yet."
+    },
+    "upcoming": {
+      "title": "Upcoming sessions",
+      "emptyTitle": "No upcoming sessions",
+      "emptyDescription": "There are no planned sessions yet."
+    }
+  },
+  "sessions": {
+    "athletesCount": "{{count}} athletes",
+    "weather": {
+      "temperature": "{{value}}°C",
+      "wind": "{{value}} kt"
+    }
+  },
+  "states": {
+    "loading": "Loading dashboard...",
+    "errorTitle": "Could not load dashboard",
+    "errorDescription": "Please try again in a few seconds."
+  },
+  "status": {
+    "planned": "Planned",
+    "inProgress": "In progress",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "unknown": "Unknown"
+  }
+}

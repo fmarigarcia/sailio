@@ -39,6 +39,7 @@ export function useLogin() {
 
       // Invalidar y actualizar cache del perfil
       queryClient.setQueryData(authKeys.profile(), data.user);
+      queryClient.removeQueries({ queryKey: authKeys.all });
     },
   });
 }

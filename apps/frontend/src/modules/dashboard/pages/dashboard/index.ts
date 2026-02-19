@@ -1,7 +1,7 @@
 /**
  * Página principal del dashboard.
- * Placeholder temporal hasta que se implementen las funcionalidades.
  */
 
 export { Dashboard } from './dashboard';
+export { useDashboard } from './useDashboard';
 export { Dashboard as default } from './dashboard';

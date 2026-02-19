@@ -185,10 +185,30 @@ async function main() {
       latitude: 41.3851,
       longitude: 2.1734,
       waterBody: 'Mediterranean Sea',
-      status: 'planned',
+      status: 'completed',
     },
   });
   sessions.push(session2);
+
+  // Session 2 - Planned future session
+  const session4 = await prisma.session.create({
+    data: {
+      coachId: coach1.id,
+      sessionType: 'training',
+      title: 'Downwind Skills Development',
+      description: 'Practice jibing, spinnaker work, and boat handling in downwind conditions.',
+      sessionDate: new Date('2026-09-28'),
+      startTime: new Date('2026-09-28T14:00:00Z'),
+      endTime: new Date('2026-09-28T17:00:00Z'),
+      durationMinutes: 180,
+      locationName: 'Barcelona Harbor Training Area',
+      latitude: 41.3851,
+      longitude: 2.1734,
+      waterBody: 'Mediterranean Sea',
+      status: 'planned',
+    },
+  });
+  sessions.push(session4);
 
   // Session 3 - Coach 2's session
   const session3 = await prisma.session.create({
@@ -225,6 +245,22 @@ async function main() {
       weatherDescription: 'Partly cloudy with good visibility',
       seaState: 'Slight',
       tideState: 'Rising',
+      dataSource: 'manual',
+    },
+  });
+
+  await prisma.weatherCondition.create({
+    data: {
+      sessionId: session2.id,
+      temperatureCelsius: 18.0,
+      windSpeedKnots: 18.5,
+      windDirectionDegrees: 270,
+      windGustsKnots: 22.0,
+      waveHeightMeters: 1.2,
+      visibilityKm: 8.0,
+      weatherDescription: 'Overcast with moderate winds',
+      seaState: 'Moderate',
+      tideState: 'High',
       dataSource: 'manual',
     },
   });
@@ -343,8 +379,8 @@ async function main() {
   console.log('\n📊 Summary:');
   console.log(`   👨‍🏫 Coaches created: 2`);
   console.log(`   ⛵ Athletes created: 4`);
-  console.log(`   🏃‍♂️ Sessions created: 3`);
-  console.log(`   🌤️  Weather records: 2`);
+  console.log(`   🏃‍♂️ Sessions created: 4`);
+  console.log(`   🌤️  Weather records: 3`);
   console.log(`   📊 Training records: 4`);
   console.log('\n🔐 Login credentials:');
   console.log('   Coach 1: coach@sailingclub.com / password123');

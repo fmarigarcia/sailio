@@ -8,6 +8,7 @@ import type {
 } from './dashboard.types';
 
 const UPCOMING_STATUSES = ['planned', 'in_progress'] as const;
+const COMPLETED_STATUSES = ['completed', 'cancelled'] as const;
 const RECENT_SESSIONS_LIMIT = 3;
 const UPCOMING_SESSIONS_LIMIT = 3;
 
@@ -83,6 +84,12 @@ export class DashboardService {
       prisma.session.findMany({
         where: {
           coachId,
+          status: {
+            in: [...COMPLETED_STATUSES],
+          },
+          sessionDate: {
+            lt: now,
+          },
         },
         orderBy: {
           sessionDate: 'desc',
