@@ -1,0 +1,12 @@
+.loading-state {
+  width: 100%;
+  display: flex;
+}
+
+.loading-state--section {
+  min-height: 200px;
+}
+
+.loading-state--page {
+  min-height: calc(100vh - 64px - var(--space-8));
+}

@@ -179,6 +179,22 @@ describe('EmptyState', () => {
     });
   });
 
+  describe('Appearance Variants', () => {
+    it('should apply default appearance class by default', () => {
+      const { container } = render(<EmptyState title="Empty" />);
+
+      const emptyState = container.querySelector('.empty-state');
+      expect(emptyState).toHaveClass('empty-state--default');
+    });
+
+    it('should apply transparent appearance class', () => {
+      const { container } = render(<EmptyState title="Empty" appearance="transparent" />);
+
+      const emptyState = container.querySelector('.empty-state');
+      expect(emptyState).toHaveClass('empty-state--transparent');
+    });
+  });
+
   describe('Accessibility', () => {
     it('should have role="status"', () => {
       render(<EmptyState title="Empty" />);

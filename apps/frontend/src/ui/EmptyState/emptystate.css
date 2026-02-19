@@ -10,6 +10,10 @@
   min-height: 300px;
 }
 
+.empty-state--transparent {
+  background-color: transparent;
+}
+
 /* Icon */
 .empty-state__icon {
   color: var(--color-gray-400);

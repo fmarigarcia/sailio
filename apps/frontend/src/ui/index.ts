@@ -60,8 +60,19 @@ export type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps } from 
 export { Spinner } from './Spinner';
 export type { SpinnerProps } from './Spinner';
 
+export { LoadingState } from './LoadingState';
+export type { LoadingStateProps, LoadingStateVariant } from './LoadingState';
+
+export { ErrorState } from './ErrorState';
+export type { ErrorStateProps } from './ErrorState';
+
 export { EmptyState } from './EmptyState';
-export type { EmptyStateProps, EmptyStateAction, EmptyStateSize } from './EmptyState';
+export type {
+  EmptyStateProps,
+  EmptyStateAction,
+  EmptyStateSize,
+  EmptyStateAppearance,
+} from './EmptyState';
 
 export { Stepper } from './Stepper';
 export type { StepperProps } from './Stepper';

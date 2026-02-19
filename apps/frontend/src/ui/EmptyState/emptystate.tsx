@@ -1,10 +1,11 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import React, { type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { EmptyStateIcon } from '../icons';
 import { Button } from '../Button';
 import './emptystate.css';
 
 export type EmptyStateSize = 'sm' | 'md' | 'lg';
+export type EmptyStateAppearance = 'default' | 'transparent';
 
 export interface EmptyStateAction {
   label: string;
@@ -13,7 +14,7 @@ export interface EmptyStateAction {
 }
 
 export interface EmptyStateProps extends Omit<
-  HTMLAttributes<HTMLDivElement>,
+  ComponentPropsWithoutRef<'div'>,
   'className' | 'style'
 > {
   title: string;
@@ -23,6 +24,7 @@ export interface EmptyStateProps extends Omit<
   action?: EmptyStateAction;
   secondaryAction?: EmptyStateAction;
   size?: EmptyStateSize;
+  appearance?: EmptyStateAppearance;
 }
 
 const EmptyState: React.FC<EmptyStateProps> = ({
@@ -33,6 +35,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   action,
   secondaryAction,
   size = 'md',
+  appearance = 'default',
   ...props
 }) => {
   const renderIcon = () => {
@@ -51,7 +54,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 
   return (
     <div
-      className={clsx('empty-state', `empty-state--${size}`)}
+      className={clsx('empty-state', `empty-state--${size}`, `empty-state--${appearance}`)}
       role="status"
       aria-live="polite"
       {...props}

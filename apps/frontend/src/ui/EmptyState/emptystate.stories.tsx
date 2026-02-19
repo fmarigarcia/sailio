@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { EmptyState } from './emptystate';
 import { EmptyStateIcon } from '../icons';
 
+const noopAction = () => undefined;
+
 const meta = {
   title: 'UI/EmptyState',
   component: EmptyState,
@@ -27,6 +29,11 @@ const meta = {
       options: ['sm', 'md', 'lg'],
       description: 'Size of the empty state',
     },
+    appearance: {
+      control: 'radio',
+      options: ['default', 'transparent'],
+      description: 'Background appearance of the empty state',
+    },
   },
 } satisfies Meta<typeof EmptyState>;
 
@@ -39,6 +46,7 @@ export const Default: Story = {
     description: 'Try adjusting your search or filters to find what you are looking for.',
     showDefaultIcon: true,
     size: 'md',
+    appearance: 'default',
   },
 };
 
@@ -50,7 +58,7 @@ export const WithAction: Story = {
     size: 'md',
     action: {
       label: 'Create Session',
-      onClick: () => alert('Create session clicked'),
+      onClick: noopAction,
       variant: 'primary',
     },
   },
@@ -64,12 +72,12 @@ export const WithSecondaryAction: Story = {
     size: 'md',
     action: {
       label: 'Add Athlete',
-      onClick: () => alert('Add athlete clicked'),
+      onClick: noopAction,
       variant: 'primary',
     },
     secondaryAction: {
       label: 'Import Athletes',
-      onClick: () => alert('Import clicked'),
+      onClick: noopAction,
       variant: 'secondary',
     },
   },
@@ -93,7 +101,7 @@ export const LargeSize: Story = {
     size: 'lg',
     action: {
       label: 'Get Started',
-      onClick: () => alert('Get started clicked'),
+      onClick: noopAction,
       variant: 'primary',
     },
   },
@@ -116,7 +124,7 @@ export const CustomIcon: Story = {
     size: 'md',
     action: {
       label: 'Connect Device',
-      onClick: () => alert('Connect clicked'),
+      onClick: noopAction,
       variant: 'primary',
     },
   },
@@ -139,7 +147,7 @@ export const LongDescription: Story = {
     size: 'md',
     action: {
       label: 'Create First Session',
-      onClick: () => alert('Create clicked'),
+      onClick: noopAction,
       variant: 'primary',
     },
   },
@@ -154,13 +162,23 @@ export const UpsellExample: Story = {
     size: 'md',
     action: {
       label: 'Upgrade Now',
-      onClick: () => alert('Upgrade clicked'),
+      onClick: noopAction,
       variant: 'primary',
     },
     secondaryAction: {
       label: 'Learn More',
-      onClick: () => alert('Learn more clicked'),
+      onClick: noopAction,
       variant: 'ghost',
     },
+  },
+};
+
+export const TransparentBackground: Story = {
+  args: {
+    title: 'No upcoming sessions',
+    description: 'There are no sessions planned for the next days.',
+    showDefaultIcon: true,
+    size: 'sm',
+    appearance: 'transparent',
   },
 };
